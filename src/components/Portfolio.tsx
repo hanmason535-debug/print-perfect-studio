@@ -2,21 +2,34 @@ import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
+import bc1 from "@/assets/portfolio/business-cards-1.jpg";
+import bc2 from "@/assets/portfolio/business-cards-2.jpg";
+import bc3 from "@/assets/portfolio/business-cards-3.jpg";
+import ban1 from "@/assets/portfolio/banner-1.jpg";
+import ban2 from "@/assets/portfolio/banner-2.jpg";
+import ban3 from "@/assets/portfolio/banner-3.jpg";
+import stk1 from "@/assets/portfolio/stickers-1.jpg";
+import stk2 from "@/assets/portfolio/stickers-2.jpg";
+import app1 from "@/assets/portfolio/apparel-1.jpg";
+import app2 from "@/assets/portfolio/apparel-2.jpg";
+import bro1 from "@/assets/portfolio/brochure-1.jpg";
+import bro2 from "@/assets/portfolio/brochure-2.jpg";
+
 const categories = ["All", "Business Cards", "Banners", "Stickers", "Apparel", "Brochures"];
 
 const portfolioItems = [
-  { title: "Corporate Business Cards", category: "Business Cards", img: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&h=600&fit=crop" },
-  { title: "Event Banner Design", category: "Banners", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=600&fit=crop" },
-  { title: "Product Label Stickers", category: "Stickers", img: "https://images.unsplash.com/photo-1635405074683-96d6921a2a68?w=600&h=600&fit=crop" },
-  { title: "Team Uniforms", category: "Apparel", img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop" },
-  { title: "Marketing Brochure", category: "Brochures", img: "https://images.unsplash.com/photo-1586075010882-3a0b4f23c871?w=600&h=600&fit=crop" },
-  { title: "Premium Visiting Card", category: "Business Cards", img: "https://images.unsplash.com/photo-1568205631419-48be6e942a60?w=600&h=600&fit=crop" },
-  { title: "Outdoor Hoarding", category: "Banners", img: "https://images.unsplash.com/photo-1504270997636-07ddfbd48945?w=600&h=600&fit=crop" },
-  { title: "Custom Vinyl Decals", category: "Stickers", img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=600&fit=crop" },
-  { title: "Branded T-Shirts", category: "Apparel", img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop" },
-  { title: "Product Catalog", category: "Brochures", img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&h=600&fit=crop" },
-  { title: "Luxury Business Card", category: "Business Cards", img: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&h=600&fit=crop" },
-  { title: "Exhibition Backdrop", category: "Banners", img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&h=600&fit=crop" },
+  { title: "Corporate Business Cards", category: "Business Cards", img: bc1 },
+  { title: "Event Banner Design", category: "Banners", img: ban1 },
+  { title: "Product Label Stickers", category: "Stickers", img: stk1 },
+  { title: "Team Uniforms", category: "Apparel", img: app1 },
+  { title: "Marketing Brochure", category: "Brochures", img: bro1 },
+  { title: "Premium Visiting Card", category: "Business Cards", img: bc2 },
+  { title: "Outdoor Hoarding", category: "Banners", img: ban2 },
+  { title: "Custom Vinyl Decals", category: "Stickers", img: stk2 },
+  { title: "Branded Polo Shirts", category: "Apparel", img: app2 },
+  { title: "Product Catalog", category: "Brochures", img: bro2 },
+  { title: "Luxury Business Card", category: "Business Cards", img: bc3 },
+  { title: "Exhibition Backdrop", category: "Banners", img: ban3 },
 ];
 
 const Portfolio = () => {
@@ -26,6 +39,7 @@ const Portfolio = () => {
 
   const filtered = filter === "All" ? portfolioItems : portfolioItems.filter((p) => p.category === filter);
   const visible = filtered.slice(0, showCount);
+  const remaining = filtered.length - visible.length;
 
   const openLightbox = (idx: number) => setLightbox(idx);
   const closeLightbox = () => setLightbox(null);
@@ -101,6 +115,8 @@ const Portfolio = () => {
                 <img
                   src={item.img}
                   alt={item.title}
+                  width={800}
+                  height={800}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
@@ -113,13 +129,13 @@ const Portfolio = () => {
           </AnimatePresence>
         </motion.div>
 
-        {visible.length < filtered.length && (
+        {remaining > 0 && (
           <div className="text-center mt-10">
             <button
               onClick={() => setShowCount((c) => c + 6)}
               className="px-6 py-3 rounded-full border border-border text-foreground font-medium text-sm hover:border-cyan/50 hover:text-cyan transition-colors"
             >
-              Load More
+              Load More ({remaining})
             </button>
           </div>
         )}

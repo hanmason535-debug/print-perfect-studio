@@ -2,29 +2,50 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 
+import businessCardsImg from "@/assets/services/business-cards.jpg";
+import bannersSignsImg from "@/assets/services/banners-signs.jpg";
+import customApparelImg from "@/assets/services/custom-apparel.jpg";
+import vinylStickersImg from "@/assets/services/vinyl-stickers.jpg";
+import brochuresFlyersImg from "@/assets/services/brochures-flyers.jpg";
+import flexPrintingImg from "@/assets/services/flex-printing.jpg";
+import letterheadsImg from "@/assets/services/letterheads.jpg";
+import weddingInvitationsImg from "@/assets/services/wedding-invitations.jpg";
+import photoPrintingImg from "@/assets/services/photo-printing.jpg";
+import canvasPrintsImg from "@/assets/services/canvas-prints.jpg";
+import standeesImg from "@/assets/services/standees.jpg";
+import backdropsImg from "@/assets/services/backdrops.jpg";
+import postersImg from "@/assets/services/posters.jpg";
+import billBooksImg from "@/assets/services/bill-books.jpg";
+import rubberStampsImg from "@/assets/services/rubber-stamps.jpg";
+import idCardsImg from "@/assets/services/id-cards.jpg";
+import certificatesImg from "@/assets/services/certificates.jpg";
+import packagingImg from "@/assets/services/packaging.jpg";
+import envelopesImg from "@/assets/services/envelopes.jpg";
+import pamphletsImg from "@/assets/services/pamphlets.jpg";
+
 const PHONE = "919377476343";
 
 const services = [
-  { title: "Business Cards", desc: "Professional cards that make a lasting first impression with premium finishes.", img: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=300&fit=crop" },
-  { title: "Banners & Signs", desc: "Eye-catching banners and signage for indoor and outdoor advertising.", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop" },
-  { title: "Custom Apparel", desc: "Custom printed t-shirts, hoodies, caps and more for your brand or event.", img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop" },
-  { title: "Vinyl Stickers", desc: "Durable vinyl stickers and decals for branding, packaging, and decoration.", img: "https://images.unsplash.com/photo-1635405074683-96d6921a2a68?w=400&h=300&fit=crop" },
-  { title: "Brochures & Flyers", desc: "High-quality brochures and flyers to promote your business effectively.", img: "https://images.unsplash.com/photo-1586075010882-3a0b4f23c871?w=400&h=300&fit=crop" },
-  { title: "Flex Printing", desc: "Large format flex printing for hoardings, shop boards, and event displays.", img: "https://images.unsplash.com/photo-1504270997636-07ddfbd48945?w=400&h=300&fit=crop" },
-  { title: "Letterheads", desc: "Corporate letterheads that reflect your brand's professionalism.", img: "https://images.unsplash.com/photo-1568205631419-48be6e942a60?w=400&h=300&fit=crop" },
-  { title: "Wedding Invitations", desc: "Beautifully designed wedding cards with premium paper and printing.", img: "https://images.unsplash.com/photo-1607861716497-e65ab29fc7ac?w=400&h=300&fit=crop" },
-  { title: "Photo Printing", desc: "High-resolution photo prints on premium paper in various sizes.", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop" },
-  { title: "Canvas Prints", desc: "Gallery-quality canvas prints for home and office decor.", img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=300&fit=crop" },
-  { title: "Standees", desc: "Roll-up and cut-out standees for events, exhibitions, and promotions.", img: "https://images.unsplash.com/photo-1504270997636-07ddfbd48945?w=400&h=300&fit=crop" },
-  { title: "Backdrops", desc: "Custom printed backdrops for events, photo booths, and stage setups.", img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=300&fit=crop" },
-  { title: "Posters", desc: "Vibrant poster printing for advertising, art, and wall graphics.", img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop" },
-  { title: "Bill Books", desc: "Custom bill books and receipt pads for your business needs.", img: "https://images.unsplash.com/photo-1568205631419-48be6e942a60?w=400&h=300&fit=crop" },
-  { title: "Rubber Stamps", desc: "Custom rubber stamps for business, personal, and official use.", img: "https://images.unsplash.com/photo-1586075010882-3a0b4f23c871?w=400&h=300&fit=crop" },
-  { title: "ID Cards", desc: "Professional ID cards with photo printing and lamination.", img: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=300&fit=crop" },
-  { title: "Certificates", desc: "Custom certificates for events, awards, and recognition programs.", img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=300&fit=crop" },
-  { title: "Packaging", desc: "Custom packaging boxes and labels for products and gifts.", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop" },
-  { title: "Envelopes", desc: "Branded envelopes that complement your corporate stationery.", img: "https://images.unsplash.com/photo-1568205631419-48be6e942a60?w=400&h=300&fit=crop" },
-  { title: "Pamphlets", desc: "Informative pamphlets for marketing campaigns and events.", img: "https://images.unsplash.com/photo-1586075010882-3a0b4f23c871?w=400&h=300&fit=crop" },
+  { title: "Business Cards", desc: "Professional cards that make a lasting first impression with premium finishes.", img: businessCardsImg },
+  { title: "Banners & Signs", desc: "Eye-catching banners and signage for indoor and outdoor advertising.", img: bannersSignsImg },
+  { title: "Custom Apparel", desc: "Custom printed t-shirts, hoodies, caps and more for your brand or event.", img: customApparelImg },
+  { title: "Vinyl Stickers", desc: "Durable vinyl stickers and decals for branding, packaging, and decoration.", img: vinylStickersImg },
+  { title: "Brochures & Flyers", desc: "High-quality brochures and flyers to promote your business effectively.", img: brochuresFlyersImg },
+  { title: "Flex Printing", desc: "Large format flex printing for hoardings, shop boards, and event displays.", img: flexPrintingImg },
+  { title: "Letterheads", desc: "Corporate letterheads that reflect your brand's professionalism.", img: letterheadsImg },
+  { title: "Wedding Invitations", desc: "Beautifully designed wedding cards with premium paper and printing.", img: weddingInvitationsImg },
+  { title: "Photo Printing", desc: "High-resolution photo prints on premium paper in various sizes.", img: photoPrintingImg },
+  { title: "Canvas Prints", desc: "Gallery-quality canvas prints for home and office decor.", img: canvasPrintsImg },
+  { title: "Standees", desc: "Roll-up and cut-out standees for events, exhibitions, and promotions.", img: standeesImg },
+  { title: "Backdrops", desc: "Custom printed backdrops for events, photo booths, and stage setups.", img: backdropsImg },
+  { title: "Posters", desc: "Vibrant poster printing for advertising, art, and wall graphics.", img: postersImg },
+  { title: "Bill Books", desc: "Custom bill books and receipt pads for your business needs.", img: billBooksImg },
+  { title: "Rubber Stamps", desc: "Custom rubber stamps for business, personal, and official use.", img: rubberStampsImg },
+  { title: "ID Cards", desc: "Professional ID cards with photo printing and lamination.", img: idCardsImg },
+  { title: "Certificates", desc: "Custom certificates for events, awards, and recognition programs.", img: certificatesImg },
+  { title: "Packaging", desc: "Custom packaging boxes and labels for products and gifts.", img: packagingImg },
+  { title: "Envelopes", desc: "Branded envelopes that complement your corporate stationery.", img: envelopesImg },
+  { title: "Pamphlets", desc: "Informative pamphlets for marketing campaigns and events.", img: pamphletsImg },
 ];
 
 const Services = () => {
@@ -63,12 +84,14 @@ const Services = () => {
               transition={{ delay: i % 3 * 0.08 }}
               whileHover={{ y: -10 }}
               onClick={() => openWhatsApp(service.title)}
-              className="group cursor-pointer bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-cyan-glow hover:border-cyan/30 transition-all duration-300"
+              className="group cursor-pointer bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-cyan-glow hover:border-cyan/30 transition-all duration-300 flex flex-col"
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-48 overflow-hidden flex-shrink-0">
                 <img
                   src={service.img}
                   alt={service.title}
+                  width={800}
+                  height={600}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
@@ -78,7 +101,7 @@ const Services = () => {
                   </span>
                 </div>
               </div>
-              <div className="p-5">
+              <div className="p-5 flex flex-col flex-grow">
                 <h3 className="font-heading font-semibold text-foreground text-base">{service.title}</h3>
                 <p className="mt-1.5 text-muted-foreground text-sm line-clamp-2">{service.desc}</p>
               </div>
