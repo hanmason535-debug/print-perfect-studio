@@ -48,6 +48,19 @@ const services = [
   { title: "Pamphlets", desc: "Informative pamphlets for marketing campaigns and events.", img: pamphletsImg },
 ];
 
+/* stagger container + child variants */
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.07 },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+};
+
 const Services = () => {
   const [showAll, setShowAll] = useState(false);
   const visible = showAll ? services : services.slice(0, 9);
@@ -74,14 +87,18 @@ const Services = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {visible.map((service, i) => (
+        <motion.div
+          key={showAll ? "all" : "partial"}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.05 }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {visible.map((service) => (
             <motion.div
               key={service.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i % 3 * 0.08 }}
+              variants={cardVariants}
               whileHover={{ y: -10 }}
               onClick={() => openWhatsApp(service.title)}
               className="group cursor-pointer bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-cyan-glow hover:border-cyan/30 transition-all duration-300 flex flex-col"
@@ -107,7 +124,7 @@ const Services = () => {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {!showAll && services.length > 9 && (
           <motion.div

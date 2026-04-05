@@ -54,9 +54,13 @@ const Header = () => {
       <div className="container mx-auto px-4 flex items-center justify-between h-16 md:h-18">
         {/* Logo */}
         <a href="#home" onClick={() => handleNav("#home")} className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan to-primary flex items-center justify-center text-primary-foreground font-heading font-bold text-lg">
+          <motion.div
+            whileHover={{ scale: 1.12, rotate: 5 }}
+            transition={{ type: "spring", stiffness: 400, damping: 12 }}
+            className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan to-primary flex items-center justify-center text-primary-foreground font-heading font-bold text-lg"
+          >
             PG
-          </div>
+          </motion.div>
           <div className="hidden sm:block">
             <div className="text-primary-foreground font-heading font-bold text-base leading-tight">Paras Graphics</div>
             <div className="text-primary-foreground/60 text-[10px] font-body tracking-widest uppercase">Premium Printing</div>

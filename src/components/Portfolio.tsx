@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -32,6 +32,91 @@ const portfolioItems = [
   { title: "Exhibition Backdrop", category: "Banners", img: ban3 },
 ];
 
+/* ── Lightbox sub-component ── */
+const Lightbox = ({
+  item,
+  index,
+  total,
+  onClose,
+  onNav,
+}: {
+  item: (typeof portfolioItems)[0];
+  index: number;
+  total: number;
+  onClose: () => void;
+  onNav: (dir: number) => void;
+}) => {
+  const touchRef = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchRef.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchRef.current === null) return;
+    const diff = e.changedTouches[0].clientX - touchRef.current;
+    if (Math.abs(diff) > 50) onNav(diff < 0 ? 1 : -1);
+    touchRef.current = null;
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 bg-navy/95 backdrop-blur-xl flex items-center justify-center p-4"
+      onClick={onClose}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors z-10"
+      >
+        <X size={20} />
+      </button>
+
+      {index > 0 && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onNav(-1); }}
+          className="absolute left-4 w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors z-10"
+        >
+          <ChevronLeft size={20} />
+        </button>
+      )}
+
+      {index < total - 1 && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onNav(1); }}
+          className="absolute right-4 w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors z-10"
+        >
+          <ChevronRight size={20} />
+        </button>
+      )}
+
+      <motion.div
+        key={index}
+        initial={{ scale: 0.96, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.96, opacity: 0 }}
+        transition={{ duration: 0.22 }}
+        onClick={(e) => e.stopPropagation()}
+        className="max-w-4xl max-h-[80vh] relative"
+      >
+        <img
+          src={item.img}
+          alt={item.title}
+          className="max-w-full max-h-[80vh] object-contain rounded-lg"
+        />
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-navy/80 to-transparent rounded-b-lg">
+          <p className="text-primary-foreground font-heading font-semibold">{item.title}</p>
+          <p className="text-primary-foreground/60 text-sm">{item.category} · {index + 1} / {total}</p>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+/* ── Main Portfolio component ── */
 const Portfolio = () => {
   const [filter, setFilter] = useState("All");
   const [lightbox, setLightbox] = useState<number | null>(null);
@@ -46,11 +131,13 @@ const Portfolio = () => {
 
   const navigate = useCallback(
     (dir: number) => {
-      if (lightbox === null) return;
-      const next = lightbox + dir;
-      if (next >= 0 && next < filtered.length) setLightbox(next);
+      setLightbox((prev) => {
+        if (prev === null) return null;
+        const next = prev + dir;
+        return next >= 0 && next < filtered.length ? next : prev;
+      });
     },
-    [lightbox, filtered.length]
+    [filtered.length]
   );
 
   useEffect(() => {
@@ -81,13 +168,13 @@ const Portfolio = () => {
           </p>
         </motion.div>
 
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        {/* Filter Tabs — horizontal scroll on mobile to prevent overflow */}
+        <div className="flex overflow-x-auto no-scrollbar justify-start sm:justify-center gap-2 mb-10 -mx-4 px-4 sm:mx-0 sm:px-0">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => { setFilter(cat); setShowCount(9); }}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                 filter === cat
                   ? "bg-cyan text-primary-foreground shadow-md"
                   : "bg-muted text-muted-foreground hover:bg-muted/80"
@@ -98,12 +185,12 @@ const Portfolio = () => {
           ))}
         </div>
 
-        {/* Grid */}
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Grid — uses subgrid-friendly rows */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <AnimatePresence mode="popLayout">
             {visible.map((item, i) => (
               <motion.div
-                key={item.title + i}
+                key={item.title}
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -127,7 +214,7 @@ const Portfolio = () => {
               </motion.div>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
 
         {remaining > 0 && (
           <div className="text-center mt-10">
@@ -144,58 +231,13 @@ const Portfolio = () => {
       {/* Lightbox */}
       <AnimatePresence>
         {lightbox !== null && filtered[lightbox] && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-navy/95 backdrop-blur-xl flex items-center justify-center p-4"
-            onClick={closeLightbox}
-          >
-            <button
-              onClick={closeLightbox}
-              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
-            >
-              <X size={20} />
-            </button>
-
-            {lightbox > 0 && (
-              <button
-                onClick={(e) => { e.stopPropagation(); navigate(-1); }}
-                className="absolute left-4 w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
-              >
-                <ChevronLeft size={20} />
-              </button>
-            )}
-
-            {lightbox < filtered.length - 1 && (
-              <button
-                onClick={(e) => { e.stopPropagation(); navigate(1); }}
-                className="absolute right-4 w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
-              >
-                <ChevronRight size={20} />
-              </button>
-            )}
-
-            <motion.div
-              key={lightbox}
-              initial={{ scale: 0.96, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.96, opacity: 0 }}
-              transition={{ duration: 0.22 }}
-              onClick={(e) => e.stopPropagation()}
-              className="max-w-4xl max-h-[80vh] relative"
-            >
-              <img
-                src={filtered[lightbox].img}
-                alt={filtered[lightbox].title}
-                className="max-w-full max-h-[80vh] object-contain rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-navy/80 to-transparent rounded-b-lg">
-                <p className="text-primary-foreground font-heading font-semibold">{filtered[lightbox].title}</p>
-                <p className="text-primary-foreground/60 text-sm">{filtered[lightbox].category} · {lightbox + 1} / {filtered.length}</p>
-              </div>
-            </motion.div>
-          </motion.div>
+          <Lightbox
+            item={filtered[lightbox]}
+            index={lightbox}
+            total={filtered.length}
+            onClose={closeLightbox}
+            onNav={navigate}
+          />
         )}
       </AnimatePresence>
     </section>
