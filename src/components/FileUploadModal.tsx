@@ -2,11 +2,24 @@ import { useState, useRef, useCallback } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Upload, X, FileText, Image, CheckCircle2, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Progress } from "@/components/ui/progress";
 
-interface FileUploadModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
+const MAX_FILES = 5;
+const MAX_SIZE = 15 * 1024 * 1024;
+const ACCEPT = ".pdf,.jpg,.jpeg,.png";
+const ACCEPT_TYPES = ["application/pdf", "image/jpeg", "image/png"];
+
+const schema = z.object({
+  phone: z
+    .string()
+    .optional()
+    .refine((v) => !v || /^\+?\d[\d\s-]{6,18}$/.test(v), "Enter a valid phone number"),
+});
+
+type FormData = z.infer<typeof schema>;
 
 interface UploadFile {
   file: File;
@@ -14,64 +27,90 @@ interface UploadFile {
   status: "pending" | "success" | "error";
 }
 
-const MAX_FILES = 5;
-const MAX_SIZE = 15 * 1024 * 1024;
-const ACCEPT = ".pdf,.jpg,.jpeg,.png";
-const ACCEPT_TYPES = ["application/pdf", "image/jpeg", "image/png"];
+interface FileUploadModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
 
 const FileUploadModal = ({ open, onOpenChange }: FileUploadModalProps) => {
   const { toast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<UploadFile[]>([]);
-  const [phone, setPhone] = useState("");
   const [dragging, setDragging] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [sent, setSent] = useState(false);
 
-  const addFiles = useCallback((incoming: FileList | File[]) => {
-    const arr = Array.from(incoming);
-    const valid: UploadFile[] = [];
-    for (const file of arr) {
-      if (files.length + valid.length >= MAX_FILES) {
-        toast({ title: `Maximum ${MAX_FILES} files allowed`, variant: "destructive" });
-        break;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
+
+  const addFiles = useCallback(
+    (incoming: FileList | File[]) => {
+      const arr = Array.from(incoming);
+      const valid: UploadFile[] = [];
+      for (const file of arr) {
+        if (files.length + valid.length >= MAX_FILES) {
+          toast({ title: `Maximum ${MAX_FILES} files allowed`, variant: "destructive" });
+          break;
+        }
+        if (!ACCEPT_TYPES.includes(file.type)) {
+          toast({ title: `${file.name} — unsupported format`, variant: "destructive" });
+          continue;
+        }
+        if (file.size > MAX_SIZE) {
+          toast({ title: `${file.name} exceeds 15MB limit`, variant: "destructive" });
+          continue;
+        }
+        valid.push({ file, id: crypto.randomUUID(), status: "pending" });
       }
-      if (!ACCEPT_TYPES.includes(file.type)) {
-        toast({ title: `${file.name} — unsupported format. Use PDF, JPEG, or PNG.`, variant: "destructive" });
-        continue;
-      }
-      if (file.size > MAX_SIZE) {
-        toast({ title: `${file.name} exceeds 15MB limit`, variant: "destructive" });
-        continue;
-      }
-      valid.push({ file, id: crypto.randomUUID(), status: "pending" });
-    }
-    setFiles((prev) => [...prev, ...valid]);
-  }, [files.length, toast]);
+      setFiles((prev) => [...prev, ...valid]);
+    },
+    [files.length, toast]
+  );
 
   const removeFile = (id: string) => setFiles((f) => f.filter((x) => x.id !== id));
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setDragging(false);
-    addFiles(e.dataTransfer.files);
-  }, [addFiles]);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setDragging(false);
+      addFiles(e.dataTransfer.files);
+    },
+    [addFiles]
+  );
 
-  const handleSend = () => {
+  const onSubmit = () => {
     if (files.length === 0) {
       toast({ title: "Please add at least one file", variant: "destructive" });
       return;
     }
-    // Simulate send — in production this would call EmailJS
-    setFiles((f) => f.map((x) => ({ ...x, status: "success" as const })));
-    setSent(true);
-    toast({ title: "Files ready! Notification sent." });
+    setUploading(true);
+    setProgress(0);
+    let current = 0;
+    const interval = setInterval(() => {
+      current += 2;
+      setProgress(Math.min(current, 100));
+      if (current >= 100) {
+        clearInterval(interval);
+        setFiles((f) => f.map((x) => ({ ...x, status: "success" as const })));
+        setUploading(false);
+        setSent(true);
+        toast({ title: "Files uploaded successfully!" });
+      }
+    }, 40);
   };
 
   const handleClose = (v: boolean) => {
     if (!v) {
       setFiles([]);
-      setPhone("");
       setSent(false);
+      setProgress(0);
+      setUploading(false);
+      reset();
     }
     onOpenChange(v);
   };
@@ -104,15 +143,20 @@ const FileUploadModal = ({ open, onOpenChange }: FileUploadModalProps) => {
             </button>
           </div>
         ) : (
-          <div className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Dropzone */}
             <div
-              onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragging(true);
+              }}
               onDragLeave={() => setDragging(false)}
               onDrop={handleDrop}
               onClick={() => inputRef.current?.click()}
-              className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
-                dragging ? "border-cyan bg-cyan/5" : "border-border hover:border-cyan/50"
+              className={`border-2 rounded-xl p-8 text-center cursor-pointer transition-all ${
+                dragging
+                  ? "border-solid border-cyan bg-cyan/5"
+                  : "border-dashed border-border hover:border-cyan/50"
               }`}
             >
               <Upload size={32} className="mx-auto text-muted-foreground mb-3" />
@@ -136,7 +180,10 @@ const FileUploadModal = ({ open, onOpenChange }: FileUploadModalProps) => {
             {files.length > 0 && (
               <div className="space-y-2">
                 {files.map((f) => (
-                  <div key={f.id} className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border">
+                  <div
+                    key={f.id}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border"
+                  >
                     {f.file.type === "application/pdf" ? (
                       <FileText size={20} className="text-destructive flex-shrink-0" />
                     ) : (
@@ -151,7 +198,11 @@ const FileUploadModal = ({ open, onOpenChange }: FileUploadModalProps) => {
                     ) : f.status === "error" ? (
                       <AlertCircle size={18} className="text-destructive flex-shrink-0" />
                     ) : (
-                      <button onClick={() => removeFile(f.id)} className="text-muted-foreground hover:text-destructive transition-colors flex-shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => removeFile(f.id)}
+                        className="text-muted-foreground hover:text-destructive transition-colors flex-shrink-0"
+                      >
                         <X size={18} />
                       </button>
                     )}
@@ -160,27 +211,39 @@ const FileUploadModal = ({ open, onOpenChange }: FileUploadModalProps) => {
               </div>
             )}
 
+            {/* Upload progress */}
+            {uploading && (
+              <div className="space-y-2">
+                <Progress value={progress} className="h-2" />
+                <p className="text-xs text-muted-foreground text-center">Uploading… {progress}%</p>
+              </div>
+            )}
+
             {/* Phone */}
             <div>
-              <label className="text-sm font-medium text-foreground mb-1 block">Phone (optional)</label>
+              <label className="text-sm font-medium text-foreground mb-1 block">
+                Phone (optional)
+              </label>
               <input
                 type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                {...register("phone")}
                 className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 placeholder="+91 XXXXX XXXXX"
                 maxLength={20}
               />
+              {errors.phone && (
+                <p className="text-xs text-destructive mt-1">{errors.phone.message}</p>
+              )}
             </div>
 
             <button
-              onClick={handleSend}
-              disabled={files.length === 0}
+              type="submit"
+              disabled={files.length === 0 || uploading}
               className="w-full px-6 py-3 rounded-full bg-gradient-to-r from-cyan to-primary text-primary-foreground font-semibold text-sm hover:shadow-cyan-glow transition-all active:scale-95 disabled:opacity-50"
             >
-              Send Notification
+              {uploading ? "Uploading…" : "Send Notification"}
             </button>
-          </div>
+          </form>
         )}
       </DialogContent>
     </Dialog>

@@ -5,6 +5,7 @@ import { ArrowLeftIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Globe } from "@/components/ui/cosmic-404";
 import { useNavigate } from "react-router-dom";
+import SEO from "@/components/SEO";
 
 // 🎞️ Animation Variants
 const fadeUp = {
@@ -48,6 +49,7 @@ export default function NotFound({
 
   return (
     <div className="flex flex-col justify-center items-center px-4 h-screen bg-navy text-primary-foreground">
+      <SEO title="Page Not Found — Paras Graphics" description="The page you're looking for doesn't exist. Return to Paras Graphics homepage." />
       <AnimatePresence mode="wait">
         <motion.div
           className="text-center"
