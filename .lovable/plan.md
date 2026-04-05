@@ -1,98 +1,104 @@
 
-# Paras Graphics — Premium Printing Website Redesign
+
+# Comprehensive UX Enhancement Plan — Paras Graphics
 
 ## Overview
-A modern, single-page website for Paras Graphics, a premium printing business in Ahmedabad. The site is a lead-generation tool funneling visitors to WhatsApp/phone. CMYK-inspired design system with Framer Motion animations, glassmorphism, and premium card effects.
+Six new components/features: ScrollProgress, SEO wrapper, CookieConsent, Stats counter banner, FileUploadModal refactor with zod, and Testimonials carousel.
 
-## Pages & Sections
+---
 
-### 1. Fixed Header/Navbar
-- PG logo monogram + "Paras Graphics" + "Premium Printing" subtitle
-- Nav links: Home, Services, Portfolio, Contact (smooth scroll)
-- WhatsApp (green) + Call (cyan) + Google Maps icon buttons
-- Glassmorphism effect: transparent → frosted on scroll (50px threshold)
-- Mobile hamburger menu with slide-down animation
-- Active section indicator on nav links
+## 1. ScrollProgress.tsx — Circular scroll-to-top ring
+**New file:** `src/components/ScrollProgress.tsx`
 
-### 2. Hero Section (Full Viewport)
-- Dark navy gradient background with subtle printing-themed imagery
-- Floating CMYK geometric shapes (cyan circle, magenta rounded square, yellow circle) with infinite float/rotate animation
-- Headline: "Premium Printing" + "Solutions" (CMYK gradient text)
-- Subheadline about trusted Ahmedabad print partner
-- Two CTA buttons: "Upload File" (cyan, opens modal) + "WhatsApp Us" (green)
-- Trust indicators: 500+ Happy Clients • 24hr Express Service • Premium Quality
-- Animated scroll-down indicator (bouncing)
-- Staggered entrance animations with delays
+- Fixed position bottom-right (bottom-6 right-6), z-40, above WhatsAppFAB or offset from it
+- Uses `framer-motion`'s `useScroll` + `useSpring` to get `scrollYProgress`
+- Renders an SVG circle (44px diameter) with `pathLength` driven by spring-smoothed scroll progress
+- Circle stroke uses the cyan gradient color; background ring in muted color
+- Center: ArrowUp icon from lucide-react
+- `onClick` → `window.scrollTo({ top: 0, behavior: "smooth" })`
+- Only visible when scrolled past ~10% (opacity transition)
+- **Footer change:** Remove the "Back to Top" button from `Footer.tsx` bottom bar
+- **Mount in:** `Index.tsx` alongside WhatsAppFAB
 
-### 3. Services Grid
-- Section header with CMYK gradient on "Services"
-- 3-col responsive grid (3/2/1 columns for desktop/tablet/mobile)
-- Cards with: image, title, description, hover lift + cyan glow shadow
-- Each card clicks to WhatsApp with service-specific pre-filled message
-- Initially show 9 services, "View All Services" button to expand
-- Staggered scroll-triggered entrance animations
-- "Get Custom Quote" CTA at bottom
-- Services: Business Cards, Banners & Signs, Custom Apparel, Vinyl Stickers, Brochures & Flyers, Flex Printing, Letterheads, Envelopes, Wedding Invitations, Photo Printing, Canvas Prints, Standees, Backdrops, Posters, Pamphlets, Bill Books, Rubber Stamps, ID Cards, Certificates, Packaging
+## 2. SEO.tsx — Dynamic meta tags with react-helmet-async
+**Install:** `react-helmet-async`
+**New file:** `src/components/SEO.tsx`
 
-### 4. Why Choose Us (Trust Bar)
-- 4-column compact feature bar (4/2/1 cols responsive)
-- Fast Turnaround (cyan), Premium Quality (magenta), Affordable Pricing (yellow), Trusted Local Printer (cyan)
-- Icon in colored circle + title + description
-- Staggered slide-in animation, hover pulse on icons
+- Reusable component accepting `title`, `description`, `ogImage?` props
+- Uses `<Helmet>` to set `<title>`, `<meta name="description">`, and OG tags
+- **App.tsx:** Wrap `BrowserRouter` children with `<HelmetProvider>`
+- **Index.tsx:** `<SEO title="Paras Graphics — Premium Printing in Ahmedabad" description="..." />`
+- **NotFound.tsx:** `<SEO title="Page Not Found — Paras Graphics" description="..." />`
+- Update `index.html` title to a generic fallback: "Paras Graphics"
 
-### 5. Portfolio Gallery
-- Section header with CMYK gradient on "Portfolio"
-- Filter tabs (pill buttons): All, Business Cards, Banners, Stickers, Apparel, etc.
-- 3-col image grid with hover overlay (dark gradient + title + category)
-- Fullscreen lightbox: large image, prev/next arrows, close button, keyboard nav (←→ Esc), image counter ("3 / 12")
-- "Load More" button for additional items
-- AnimatePresence for filter transitions
-- Placeholder/sample images for demonstration
+## 3. CookieConsent.tsx — Animated consent banner
+**New file:** `src/components/CookieConsent.tsx`
 
-### 6. Contact Section
-- Two-column layout (form left, info right)
-- Contact form: Name*, Email*, Phone, Message*, honeypot field
-- Submit → "Send Message via WhatsApp" (opens WhatsApp with form data)
-- Animated border beam effect around form card
-- Right column: Address (→ Google Maps), Email (→ mailto), Phone (→ tel), Business Hours
-- Each info item with colored icon badge, hover slide-right effect
-- Google Maps embed in rounded container
-- Social media links: Facebook, Instagram, LinkedIn with hover effects
+- Checks `localStorage.getItem("cookie-consent")` on mount
+- If not set, renders a fixed bottom banner sliding up via `framer-motion`
+- Styled with `bg-card text-foreground border-t border-border` + shadow
+- Text: "We use cookies to enhance your experience..."
+- Two shadcn `<Button>` components: "Accept All" (default variant) and "Preferences" (outline variant, no-op/toast for now)
+- "Accept All" sets `localStorage.setItem("cookie-consent", "accepted")` and dismisses
+- **Mount in:** `App.tsx` globally, outside Routes
 
-### 7. Footer
-- 3-column: Company info + Quick Links + Contact
-- "Back to Top" button
-- Copyright: © 2025 Paras Graphics, Ahmedabad
-- Subtle hover effects on links (cyan color change)
+## 4. Stats.tsx — Animated count-up banner
+**New file:** `src/components/Stats.tsx`
 
-### 8. Floating WhatsApp Button
-- Fixed bottom-right, green circular FAB (64×64)
-- WhatsApp icon + label, click → WhatsApp chat
-- 2-second delayed spring entrance animation
-- Pulsing green glow shadow
-- Auto-dismissing tooltip "Chat with us on WhatsApp"
+- Placed in `Index.tsx` between `<Hero />` and `<Services />`
+- 4 metrics in a responsive grid (2×2 on mobile, 4×1 on desktop):
+  - `25+` Years Experience
+  - `50,000+` Happy Clients
+  - `1,000,000+` Prints Delivered (displayed as `1M+`)
+  - `24hr` Express Delivery
+- Uses `useInView` from framer-motion to trigger count-up
+- Custom `useCountUp` hook: animates from 0 to target using `requestAnimationFrame` over ~2 seconds with easing
+- Section styled with `bg-navy text-primary-foreground` with subtle CMYK accent borders/dividers
+- Each stat card has an icon from lucide-react
 
-### 9. File Upload Modal
-- Triggered from Hero "Upload File" button
-- Drag-and-drop zone + click-to-browse
-- Accept PDF, JPEG, PNG — max 5 files, 15MB each
-- File list with status indicators
-- Optional phone number field
-- "Send Notification" button (EmailJS integration placeholder)
-- Success/error states with visual feedback
+## 5. FileUploadModal.tsx — Refactor with react-hook-form + zod
+**Edit:** `src/components/FileUploadModal.tsx`
 
-## Design System
-- **Colors:** Cyan (#0BC5EA), Magenta (#D63384), Yellow (#FFD700), Navy (#263A5E), WhatsApp Green (#22C55E)
-- **Fonts:** Montserrat (headings), Inter (body) via Google Fonts
-- **Signature element:** CMYK gradient text (cyan→magenta→yellow)
-- **Cards:** Glassmorphism/elevated with rounded-xl, cyan glow hover shadows
-- **Animations:** Framer Motion throughout — scroll-triggered (once), hover/tap feedback, spring physics
-- **Shadows:** Navy-tinted premium shadows, cyan glow for interactive elements
+- Define zod schema: `phone` (optional string, validated phone pattern), `files` (array min 1, max 5)
+- Wrap form in `useForm` with `zodResolver`
+- Dropzone keeps existing drag-and-drop but enhanced:
+  - `border-dashed border-2 border-border` default
+  - On drag hover: `border-solid border-cyan bg-cyan/5` (transition-all)
+- On submit: show a fake 2-second upload progress bar using the existing `<Progress />` component from `src/components/ui/progress.tsx`
+  - Animate value from 0→100 over 2s using `setInterval`
+  - On complete, show success state
+- Form errors displayed via react-hook-form's `formState.errors`
 
-## Technical Notes
-- All data is static/mock (no backend needed)
-- WhatsApp links: `https://wa.me/919377476343?text={encoded_message}`
-- Phone: `tel:+919377476343`
-- Framer Motion for all animations with `prefers-reduced-motion` respect
-- Smooth scroll behavior for anchor navigation
-- Mobile-first responsive design with touch-friendly targets (44×44px min)
+## 6. Testimonials.tsx — Embla carousel with star ratings
+**New file:** `src/components/Testimonials.tsx`
+
+- Inserted in `Index.tsx` right above `<Contact />`
+- Uses `embla-carousel-react` (already installed) with autoplay (3s interval)
+- 4 testimonial cards with Indian names:
+  1. Rajesh Mehta — Business owner, 5 stars
+  2. Priya Sharma — Event planner, 5 stars
+  3. Amit Patel — Marketing manager, 4 stars
+  4. Sneha Desai — Boutique owner, 5 stars
+- Each card: avatar initial circle, name, role, star rating (lucide `Star` filled), quote text
+- Styled with `bg-navy text-primary-foreground` section, cards use glassmorphism (`bg-white/5 backdrop-blur border border-white/10`)
+- Section header with fade-in-up on scroll
+- Dot indicators for carousel position
+
+---
+
+## Files Modified
+| File | Action |
+|------|--------|
+| `src/components/ScrollProgress.tsx` | Create |
+| `src/components/SEO.tsx` | Create |
+| `src/components/CookieConsent.tsx` | Create |
+| `src/components/Stats.tsx` | Create |
+| `src/components/Testimonials.tsx` | Create |
+| `src/components/FileUploadModal.tsx` | Refactor |
+| `src/components/Footer.tsx` | Remove "Back to Top" button |
+| `src/pages/Index.tsx` | Add Stats, Testimonials, ScrollProgress |
+| `src/pages/NotFound.tsx` | Add SEO component |
+| `src/App.tsx` | Add HelmetProvider, CookieConsent |
+| `index.html` | Update fallback title |
+| `package.json` | Add react-helmet-async |
+
