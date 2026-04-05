@@ -58,7 +58,7 @@ export function Globe({ className, config = GLOBE_CONFIG }: GlobeProps) {
       width: widthRef.current * 2,
       height: widthRef.current * 2,
       onRender,
-    });
+    } as COBEOptions);
 
     return () => {
       globe.destroy();
