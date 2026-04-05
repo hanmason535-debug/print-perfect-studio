@@ -26,7 +26,7 @@ const globeVariants = {
       duration: 5,
       ease: "easeInOut",
       repeat: Infinity,
-      repeatType: "reverse",
+      repeatType: "reverse" as const,
     },
   },
 };

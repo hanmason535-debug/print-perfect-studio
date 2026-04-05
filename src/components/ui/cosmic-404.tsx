@@ -4,10 +4,9 @@ import createGlobe, { type COBEOptions } from "cobe";
 import { useCallback, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
-const GLOBE_CONFIG: COBEOptions = {
+const GLOBE_CONFIG: Partial<COBEOptions> = {
   width: 600,
   height: 600,
-  onRender: () => {},
   devicePixelRatio: 2,
   phi: 0,
   theta: 0.3,
@@ -28,7 +27,7 @@ const GLOBE_CONFIG: COBEOptions = {
 
 export interface GlobeProps {
   className?: string;
-  config?: COBEOptions;
+  config?: Partial<COBEOptions>;
 }
 
 export function Globe({ className, config = GLOBE_CONFIG }: GlobeProps) {
