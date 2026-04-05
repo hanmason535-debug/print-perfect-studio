@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Upload, MessageCircle, ChevronDown, Users, Zap, Award } from "lucide-react";
 import FileUploadModal from "./FileUploadModal";
@@ -12,8 +12,39 @@ const trustItems = [
   { icon: Award, label: "Premium Quality", color: "text-yellow" },
 ];
 
+const words = ["Printing", "Branding", "Packaging", "Design"];
+
 const Hero = () => {
   const [uploadOpen, setUploadOpen] = useState(false);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(150);
+
+  useEffect(() => {
+    const word = words[currentWordIndex];
+    let timer: NodeJS.Timeout;
+
+    const handleTyping = () => {
+      if (!isDeleting && currentText === word) {
+        timer = setTimeout(() => setIsDeleting(true), 1500);
+      } else if (isDeleting && currentText === "") {
+        setIsDeleting(false);
+        setCurrentWordIndex((prev) => (prev + 1) % words.length);
+        setTypingSpeed(150);
+      } else {
+        const nextText = isDeleting 
+          ? word.substring(0, currentText.length - 1)
+          : word.substring(0, currentText.length + 1);
+          
+        setCurrentText(nextText);
+        setTypingSpeed(isDeleting ? 50 : 150 - Math.random() * 50);
+      }
+    };
+
+    timer = setTimeout(handleTyping, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, currentWordIndex, typingSpeed]);
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-navy">
@@ -48,9 +79,10 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="font-heading font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-navy-foreground leading-tight"
+          className="font-heading font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-navy-foreground leading-tight min-h-[2.5em] sm:min-h-[2.2em]"
         >
-          Premium Printing
+          Premium <span className="text-cyan">{currentText}</span>
+          <span className="animate-pulse">|</span>
           <br />
           <span className="text-cmyk-gradient">Solutions</span>
         </motion.h1>
