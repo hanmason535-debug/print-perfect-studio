@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, MapPin, MessageCircle } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 const PHONE = "919377476343";
 const WA_URL = `https://wa.me/${PHONE}?text=${encodeURIComponent("Hi, I'm interested in your printing services. Can you share more details?")}`;
@@ -114,6 +115,7 @@ const Header = () => {
             <MessageCircle size={14} />
             WhatsApp
           </a>
+          <ThemeToggle />
         </div>
 
         {/* Mobile Hamburger */}
