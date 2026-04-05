@@ -58,7 +58,7 @@ const containerVariants = {
 
 const cardVariants = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
 };
 
 const Services = () => {
@@ -99,9 +99,10 @@ const Services = () => {
             <motion.div
               key={service.title}
               variants={cardVariants}
-              whileHover={{ y: -10 }}
+              whileHover={{ y: -8, boxShadow: "0 20px 40px -12px hsl(191 85% 50% / 0.25)" }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
               onClick={() => openWhatsApp(service.title)}
-              className="group cursor-pointer bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-cyan-glow hover:border-cyan/30 transition-all duration-300 flex flex-col"
+              className="group cursor-pointer bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:border-cyan/30 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col"
             >
               <div className="relative h-48 overflow-hidden flex-shrink-0">
                 <img
