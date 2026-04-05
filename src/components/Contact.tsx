@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { MapPin, Mail, Phone, Clock, Facebook, Instagram, Linkedin, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -27,9 +28,9 @@ const contactInfo = [
 ];
 
 const socials = [
-  { icon: Facebook, href: "#", label: "Facebook", hover: "hover:text-cyan" },
-  { icon: Instagram, href: "#", label: "Instagram", hover: "hover:text-magenta" },
-  { icon: Linkedin, href: "#", label: "LinkedIn", hover: "hover:text-primary" },
+  { icon: Facebook, href: "/facebook", label: "Facebook", hover: "hover:text-cyan" },
+  { icon: Instagram, href: "/instagram", label: "Instagram", hover: "hover:text-magenta" },
+  { icon: Linkedin, href: "/linkedin", label: "LinkedIn", hover: "hover:text-primary" },
 ];
 
 const Contact = () => {
@@ -196,14 +197,14 @@ const Contact = () => {
               <p className="text-sm font-medium text-foreground mb-3">Follow Us</p>
               <div className="flex gap-3">
                 {socials.map((s) => (
-                  <a
+                  <Link
                     key={s.label}
-                    href={s.href}
+                    to={s.href}
                     aria-label={s.label}
                     className={`w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground transition-all hover:scale-110 ${s.hover}`}
                   >
                     <s.icon size={18} />
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

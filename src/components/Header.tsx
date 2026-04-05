@@ -90,9 +90,13 @@ const Header = () => {
             href={MAPS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative w-9 h-9 rounded-full flex items-center justify-center text-primary-foreground/70 hover:text-cyan transition-colors border border-primary-foreground/20 hover:border-cyan/50"
+            className="relative w-9 h-9 rounded-full flex items-center justify-center text-primary-foreground/70 hover:text-white transition-colors border border-primary-foreground/20 hover:border-white/50 group"
           >
-            <MapPin size={16} />
+            <span className="relative inline-block w-4 h-4">
+              <MapPin size={16} className="absolute inset-0" />
+              {/* Black inner dot */}
+              <span className="absolute left-[6px] top-[4.5px] w-[4px] h-[4px] rounded-full bg-black opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" />
+            </span>
           </a>
           <a
             href={`tel:+${PHONE}`}

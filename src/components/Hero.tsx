@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Upload, MessageCircle, ChevronDown, Users, Zap, Award } from "lucide-react";
 import FileUploadModal from "./FileUploadModal";
+import heroBg from "@/assets/hero-bg.jpg";
 
 const PHONE = "919377476343";
 const WA_URL = `https://wa.me/${PHONE}?text=${encodeURIComponent("Hi, I'm interested in your printing services. Can you share more details?")}`;
@@ -21,7 +22,12 @@ const Hero = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(150);
 
+  const heroRef = useRef(null);
+  const isInView = useInView(heroRef, { once: false, amount: 0.1 });
+
   useEffect(() => {
+    if (!isInView) return;
+
     const word = words[currentWordIndex];
     let timer: NodeJS.Timeout;
 
@@ -33,10 +39,10 @@ const Hero = () => {
         setCurrentWordIndex((prev) => (prev + 1) % words.length);
         setTypingSpeed(150);
       } else {
-        const nextText = isDeleting 
+        const nextText = isDeleting
           ? word.substring(0, currentText.length - 1)
           : word.substring(0, currentText.length + 1);
-          
+
         setCurrentText(nextText);
         setTypingSpeed(isDeleting ? 50 : 150 - Math.random() * 50);
       }
@@ -44,12 +50,17 @@ const Hero = () => {
 
     timer = setTimeout(handleTyping, typingSpeed);
     return () => clearTimeout(timer);
-  }, [currentText, isDeleting, currentWordIndex, typingSpeed]);
+  }, [currentText, isDeleting, currentWordIndex, typingSpeed, isInView]);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-navy">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy to-charcoal" />
+    <section id="home" ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-navy">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-100"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      />
+      {/* Background gradient overlay - Dark top/middle, 80% opacity bottom for readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-navy via-navy/85 via-60% to-navy/80" />
 
       {/* Floating CMYK shapes */}
       <motion.div
