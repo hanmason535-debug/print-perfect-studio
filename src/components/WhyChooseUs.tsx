@@ -15,12 +15,12 @@ const WhyChooseUs = () => (
         {features.map((f, i) => (
           <motion.div
             key={f.title}
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            whileHover={{ scale: 1.03 }}
-            className="flex items-start gap-4 p-5 rounded-xl border border-border bg-card hover:shadow-sm transition-all"
+            transition={{ delay: i * 0.12, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            whileHover={{ y: -4, boxShadow: "0 12px 30px -8px hsl(191 85% 50% / 0.15)" }}
+            className="flex items-start gap-4 p-5 rounded-xl border border-border bg-card hover:shadow-sm transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
           >
             <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${f.color}`}>
               <f.icon size={22} />

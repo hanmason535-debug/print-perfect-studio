@@ -12,7 +12,7 @@ const Footer = () => {
           {/* Company */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan to-primary flex items-center justify-center font-heading font-bold text-primary-foreground text-lg">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan to-primary flex items-center justify-center font-heading font-bold text-primary-foreground text-lg transition-transform duration-300 hover:scale-110 hover:rotate-[5deg]">
                 PG
               </div>
               <div>
@@ -21,7 +21,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-charcoal-foreground/60 text-sm leading-relaxed">
-              Your trusted printing partner in Ahmedabad. Delivering premium quality prints since 2015.
+              Your trusted printing partner in Ahmedabad. Delivering premium quality prints since 1997.
             </p>
           </div>
 
@@ -60,11 +60,11 @@ const Footer = () => {
               <a href={`tel:+${PHONE}`} className="flex items-center gap-2 text-charcoal-foreground/60 text-sm hover:text-cyan transition-colors">
                 <Phone size={14} /> +91 93774 76343
               </a>
-              <a href="mailto:info@parasgraphics.example" className="flex items-center gap-2 text-charcoal-foreground/60 text-sm hover:text-cyan transition-colors">
-                <Mail size={14} /> info@parasgraphics.example
+              <a href="mailto:parasgph@gmail.com" className="flex items-center gap-2 text-charcoal-foreground/60 text-sm hover:text-cyan transition-colors">
+                <Mail size={14} /> parasgph@gmail.com
               </a>
               <div className="flex items-center gap-2 text-charcoal-foreground/60 text-sm">
-                <Clock size={14} /> Mon–Sat: 9AM–7PM
+                <Clock size={14} /> Mon–Sat: 11AM–8PM
               </div>
             </div>
           </div>

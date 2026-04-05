@@ -7,7 +7,7 @@ const PHONE = "919377476343";
 const WA_URL = `https://wa.me/${PHONE}?text=${encodeURIComponent("Hi, I'm interested in your printing services. Can you share more details?")}`;
 
 const trustItems = [
-  { icon: Users, label: "500+ Happy Clients", color: "text-cyan" },
+  { icon: Users, label: "50,000+ Happy Clients", color: "text-cyan" },
   { icon: Zap, label: "24hr Express Service", color: "text-magenta" },
   { icon: Award, label: "Premium Quality", color: "text-yellow" },
 ];

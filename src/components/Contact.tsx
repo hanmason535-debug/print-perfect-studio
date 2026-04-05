@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const PHONE = "919377476343";
 const MAPS_URL = "https://maps.google.com/?q=Paras+Graphics,+Chandrika+Chamber,+Mirzapur+Rd,+Ahmedabad";
-const MAPS_EMBED = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3672.0!2d72.57!3d23.03!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDAyJzI0LjAiTiA3MsKwMzQnMTIuMCJF!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin";
+const MAPS_EMBED = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d229.4900191730085!2d72.58254442332628!3d23.02963496831482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e844430345e57%3A0xe294cc40affa7024!2sParas%20Graphics!5e0!3m2!1sen!2sin!4v1775394624007!5m2!1sen!2sin";
 
 const contactInfo = [
   {
@@ -13,15 +13,15 @@ const contactInfo = [
     href: MAPS_URL, color: "bg-cyan/15 text-cyan",
   },
   {
-    icon: Mail, title: "Email Us", detail: "info@parasgraphics.example",
-    href: "mailto:info@parasgraphics.example", color: "bg-magenta/15 text-magenta",
+    icon: Mail, title: "Email Us", detail: "parasgph@gmail.com",
+    href: "mailto:parasgph@gmail.com", color: "bg-magenta/15 text-magenta",
   },
   {
     icon: Phone, title: "Call Us", detail: "+91 93774 76343",
     href: `tel:+${PHONE}`, color: "bg-yellow/15 text-yellow",
   },
   {
-    icon: Clock, title: "Business Hours", detail: "Mon–Sat: 9AM–7PM | Sun: Closed",
+    icon: Clock, title: "Business Hours", detail: "Mon–Sat: 11AM–8PM | Sun: Closed",
     href: undefined, color: "bg-cyan/15 text-cyan",
   },
 ];
@@ -65,6 +65,7 @@ const Contact = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
           className="text-center mb-12"
         >
           <h2 className="font-heading font-bold text-3xl sm:text-4xl text-foreground">

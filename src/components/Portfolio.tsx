@@ -192,10 +192,11 @@ const Portfolio = () => {
               <motion.div
                 key={item.title}
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ delay: i % 3 * 0.05 }}
+                transition={{ delay: i % 3 * 0.08, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                whileHover={{ y: -6, boxShadow: "0 16px 36px -8px hsl(191 85% 50% / 0.2)" }}
                 onClick={() => openLightbox(i)}
                 className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer"
               >

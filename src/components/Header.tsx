@@ -63,7 +63,7 @@ const Header = () => {
           </motion.div>
           <div className="hidden sm:block">
             <div className="text-primary-foreground font-heading font-bold text-base leading-tight">Paras Graphics</div>
-            <div className="text-primary-foreground/60 text-[10px] font-body tracking-widest uppercase">Premium Printing</div>
+            <div className="text-primary-foreground/60 text-[10px] font-body tracking-widest uppercase">Premium Print</div>
           </div>
         </a>
 
