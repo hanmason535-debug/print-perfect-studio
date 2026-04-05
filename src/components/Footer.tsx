@@ -1,9 +1,8 @@
-import { ArrowUp, Phone, Mail, Clock } from "lucide-react";
+import { Phone, Mail, Clock } from "lucide-react";
 
 const PHONE = "919377476343";
 
 const Footer = () => {
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
     <footer className="bg-charcoal text-charcoal-foreground pt-16 pb-6">
@@ -71,16 +70,10 @@ const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-charcoal-foreground/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="border-t border-charcoal-foreground/10 pt-6 flex items-center justify-center">
           <p className="text-charcoal-foreground/40 text-xs">
             © {new Date().getFullYear()} Paras Graphics, Ahmedabad. All rights reserved.
           </p>
-          <button
-            onClick={scrollToTop}
-            className="flex items-center gap-1.5 text-charcoal-foreground/40 text-xs hover:text-cyan transition-colors"
-          >
-            <ArrowUp size={14} /> Back to Top
-          </button>
         </div>
       </div>
     </footer>
