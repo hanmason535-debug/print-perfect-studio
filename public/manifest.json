@@ -1,0 +1,16 @@
+{
+  "name": "Paras Graphics",
+  "short_name": "Paras Graphics",
+  "description": "Premium printing services in Ahmedabad since 1997.",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#0a1628",
+  "background_color": "#0a1628",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

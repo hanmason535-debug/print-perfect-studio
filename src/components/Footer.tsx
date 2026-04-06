@@ -70,10 +70,14 @@ const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-charcoal-foreground/10 pt-6 flex items-center justify-center">
+        <div className="border-t border-charcoal-foreground/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-charcoal-foreground/40 text-xs">
             © {new Date().getFullYear()} Paras Graphics, Ahmedabad. All rights reserved.
           </p>
+          <div className="flex items-center gap-4">
+            <a href="/privacy-policy" className="text-charcoal-foreground/40 text-xs hover:text-cyan transition-colors">Privacy Policy</a>
+            <a href="/terms" className="text-charcoal-foreground/40 text-xs hover:text-cyan transition-colors">Terms of Service</a>
+          </div>
         </div>
       </div>
     </footer>
