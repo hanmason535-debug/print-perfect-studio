@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { MapPin, Mail, Phone, Clock, Facebook, Instagram, Linkedin, MessageCircle } from "lucide-react";
+import { BorderBeam } from "@/registry/magicui/border-beam";
 import { useToast } from "@/hooks/use-toast";
 
 const PHONE = "919377476343";
@@ -86,10 +87,8 @@ const Contact = () => {
             className="relative"
           >
             <div className="bg-card rounded-xl border border-border p-6 sm:p-8 shadow-sm relative overflow-hidden">
-              {/* Border beam effect */}
-              <div className="absolute inset-0 rounded-xl pointer-events-none">
-                <div className="absolute w-20 h-1 bg-gradient-to-r from-cyan via-magenta to-yellow rounded-full animate-[border-beam_4s_linear_infinite]" style={{ offsetPath: "rect(0 100% 100% 0 round 12px)" }} />
-              </div>
+              <BorderBeam duration={6} size={400} className="from-transparent via-red-500 to-transparent" />
+              <BorderBeam duration={6} delay={3} size={400} borderWidth={2} className="from-transparent via-blue-500 to-transparent" />
 
               <h3 className="font-heading font-semibold text-lg text-foreground mb-6">Send us a Message</h3>
               <form onSubmit={handleSubmit} className="space-y-4">
