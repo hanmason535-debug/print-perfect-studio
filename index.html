@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="index, follow" />
+
     <title>Paras Graphics — Premium Printing in Ahmedabad</title>
     <meta name="description" content="Premium printing services in Ahmedabad since 1997. Business cards, brochures, banners, packaging & more." />
     <meta name="author" content="Paras Graphics" />
@@ -16,10 +18,69 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@Lovable" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="theme-color" content="#0a1628" />
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Preconnect hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://maps.googleapis.com" />
+    <link rel="dns-prefetch" href="https://www.google.com" />
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Paras Graphics",
+      "description": "Premium printing services in Ahmedabad since 1997. Business cards, brochures, banners, packaging & more.",
+      "url": "https://parasgraphics.com",
+      "telephone": "+919377476343",
+      "email": "parasgph@gmail.com",
+      "image": "https://lovable.dev/opengraph-image-p98pqg.png",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Ahmedabad",
+        "addressLocality": "Ahmedabad",
+        "addressRegion": "Gujarat",
+        "postalCode": "380001",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 23.0225,
+        "longitude": 72.5714
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+        "opens": "11:00",
+        "closes": "20:00"
+      },
+      "foundingDate": "1997",
+      "priceRange": "$$",
+      "sameAs": [],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Printing Services",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Business Cards"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Flex Banners"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Vinyl Stickers"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Corporate Apparel"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Brochures"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Packaging"}}
+        ]
+      }
+    }
+    </script>
   </body>
 </html>
