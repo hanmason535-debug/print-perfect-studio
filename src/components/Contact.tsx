@@ -87,8 +87,8 @@ const Contact = () => {
             className="relative"
           >
             <div className="bg-card rounded-xl border border-border p-6 sm:p-8 shadow-sm relative overflow-hidden">
-              <BorderBeam duration={6} size={400} className="from-transparent via-red-500 to-transparent" />
-              <BorderBeam duration={6} delay={3} size={400} borderWidth={2} className="from-transparent via-blue-500 to-transparent" />
+              <BorderBeam duration={6} size={300} colorFrom="hsl(var(--cyan))" colorTo="hsl(var(--magenta))" />
+              <BorderBeam duration={6} delay={3} size={300} borderWidth={2} colorFrom="hsl(var(--magenta))" colorTo="hsl(var(--yellow))" />
 
               <h3 className="font-heading font-semibold text-lg text-foreground mb-6">Send us a Message</h3>
               <form onSubmit={handleSubmit} className="space-y-4">
