@@ -27,11 +27,11 @@ export function BorderBeam({
       }
       className={cn(
         "pointer-events-none absolute inset-0 rounded-[inherit]",
-        "![mask-composite:subtract] [border:calc(var(--border-width))*1_solid_transparent]",
+        "![mask-composite:subtract] [border:calc(var(--border-width)*1px)_solid_transparent]",
         "[mask:linear-gradient(transparent,transparent),linear-gradient(white,white)]",
         "after:absolute after:aspect-square after:w-[calc(var(--size)*1px)]",
         "after:animate-border-beam after:[animation-delay:var(--delay)]",
-        "after:[background:linear-gradient(to_left,transparent,transparent,transparent)]",
+        "after:bg-gradient-to-l",
         "after:[offset-anchor:calc(var(--size)*1px)_50%]",
         "after:[offset-path:rect(0_auto_auto_0_round_calc(var(--size)*1px))]",
         className
