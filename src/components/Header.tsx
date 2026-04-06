@@ -44,8 +44,8 @@ const ListItem = React.forwardRef<HTMLAnchorElement, React.ComponentPropsWithout
         >
           <Icon className="h-5 w-5 mt-0.5 text-primary shrink-0 group-hover:text-primary/80 transition-colors" />
           <div>
-            <div className="text-sm font-medium leading-none text-primary-foreground">{title}</div>
-            <p className="line-clamp-2 text-xs leading-snug text-primary-foreground/50 mt-1">{children}</p>
+           <div className="text-sm font-medium leading-none text-foreground">{title}</div>
+             <p className="line-clamp-2 text-xs leading-snug text-muted-foreground mt-1">{children}</p>
           </div>
         </a>
       </NavigationMenuLink>
@@ -142,10 +142,10 @@ const Header = () => {
                   <div className="grid grid-cols-5 gap-3">
                     {/* Left highlight column */}
                     <div className="col-span-2 rounded-lg bg-gradient-to-br from-cyan/20 via-primary/10 to-cyan/5 p-4 flex flex-col justify-end border border-cyan/10">
-                      <div className="text-primary-foreground font-heading font-bold text-base leading-tight mb-2">
-                        Premium Commercial Printing
-                      </div>
-                      <p className="text-primary-foreground/50 text-xs leading-relaxed">
+                       <div className="text-foreground font-heading font-bold text-base leading-tight mb-2">
+                         Premium Commercial Printing
+                       </div>
+                       <p className="text-muted-foreground text-xs leading-relaxed">
                         We deliver high-quality prints for every scale of business.
                       </p>
                     </div>
