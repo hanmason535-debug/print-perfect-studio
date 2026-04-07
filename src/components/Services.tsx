@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
+import ProgressiveImage from "./ui/ProgressiveImage";
+import { prefetchImages } from "@/lib/prefetcher";
 
 import businessCardsImg from "@/assets/services/business-cards.jpg";
 import bannersSignsImg from "@/assets/services/banners-signs.jpg";
@@ -52,18 +54,31 @@ const services = [
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.07 },
+    transition: { staggerChildren: 0.05 },
   },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { 
+      duration: 0.35, 
+      ease: [0.22, 1, 0.36, 1] 
+    } 
+  },
 };
 
 const Services = () => {
   const [showAll, setShowAll] = useState(false);
   const visible = showAll ? services : services.slice(0, 9);
+
+  useState(() => {
+    // Prefetch service images when the component state or context is ready
+    const allUrls = services.map(s => s.img);
+    prefetchImages(allUrls);
+  });
 
   const openWhatsApp = (title: string) => {
     const msg = encodeURIComponent(`Hi, I'm interested in ${title} printing. Can you share details and pricing?`);
@@ -92,26 +107,24 @@ const Services = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.05 }}
+          viewport={{ once: true, margin: "-50px" }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {visible.map((service) => (
             <motion.div
               key={service.title}
               variants={cardVariants}
-              whileHover={{ y: -8, boxShadow: "0 20px 40px -12px hsl(191 85% 50% / 0.25)" }}
+              whileHover={{ y: -8 }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
               onClick={() => openWhatsApp(service.title)}
-              className="group cursor-pointer bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:border-cyan/30 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col"
+              className="group cursor-pointer bg-card rounded-xl border border-border shadow-sm hover:border-cyan/30 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col relative after:absolute after:inset-0 after:-z-10 after:rounded-xl after:shadow-[0_20px_40px_-12px_rgba(0,255,255,0.25)] after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300 after:will-change-opacity"
             >
-              <div className="relative h-48 overflow-hidden flex-shrink-0">
-                <img
+              <div className="relative h-48 overflow-hidden rounded-t-xl flex-shrink-0 bg-muted/10">
+                <ProgressiveImage
                   src={service.img}
                   alt={service.title}
-                  width={800}
-                  height={600}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
+                  containerClassName="w-full h-full"
+                  className="transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                   <span className="text-primary-foreground text-xs font-medium flex items-center gap-1">

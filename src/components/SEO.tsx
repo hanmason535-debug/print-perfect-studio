@@ -7,13 +7,15 @@ interface SEOProps {
   canonical?: string;
   ogType?: string;
   robots?: string;
+  prefetchImage?: string;
 }
 
-const SEO = ({ title, description, ogImage, canonical, ogType = "website", robots = "index, follow" }: SEOProps) => (
+const SEO = ({ title, description, ogImage, canonical, ogType = "website", robots = "index, follow", prefetchImage }: SEOProps) => (
   <Helmet>
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
+    {prefetchImage && <link rel="preload" as="image" href={prefetchImage} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />

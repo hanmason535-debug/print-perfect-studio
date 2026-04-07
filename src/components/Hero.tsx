@@ -44,7 +44,7 @@ const Hero = () => {
           : word.substring(0, currentText.length + 1);
 
         setCurrentText(nextText);
-        setTypingSpeed(isDeleting ? 50 : 150 - Math.random() * 50);
+        setTypingSpeed(isDeleting ? 40 : 120 - Math.random() * 40);
       }
     };
 
@@ -62,46 +62,50 @@ const Hero = () => {
       {/* Background gradient overlay - Dark top/middle, 80% opacity bottom for readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-navy via-navy/85 via-60% to-navy/80" />
 
-      {/* Floating CMYK shapes */}
+      {/* Floating CMYK shapes - Optimized for low-end devices (No CSS blurs, GPU accelerated) */}
       <motion.div
-        className="absolute top-[15%] left-[10%] w-20 h-20 rounded-full bg-cyan/20 blur-sm"
+        className="absolute top-[15%] left-[9%] w-28 h-28 pointer-events-none will-change-transform"
+        style={{ background: "radial-gradient(circle, rgba(0, 230, 255, 0.2) 0%, transparent 70%)" }}
         animate={{ y: [-20, 20, -20], rotate: [0, 180, 360] }}
+        transition={{ duration: 5.3, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute top-[30%] right-[11%] w-20 h-20 pointer-events-none will-change-transform rounded-[1.75rem]"
+        style={{ background: "radial-gradient(circle, rgba(255, 0, 255, 0.16) 0%, rgba(255, 0, 255, 0.08) 80%, transparent 100%)" }}
+        animate={{ y: [20, -20, 20], rotate: [0, -90, 0] }}
+        transition={{ duration: 6.7, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-[25%] left-[19%] w-20 h-20 pointer-events-none will-change-transform"
+        style={{ background: "radial-gradient(circle, rgba(255, 230, 0, 0.15) 0%, transparent 70%)" }}
+        animate={{ y: [10, -25, 10], rotate: [0, 120, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute top-[30%] right-[12%] w-16 h-16 rounded-xl bg-magenta/20 blur-sm"
-        animate={{ y: [20, -20, 20], rotate: [0, -90, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-[25%] left-[20%] w-14 h-14 rounded-full bg-yellow/15 blur-sm"
-        animate={{ y: [10, -25, 10], rotate: [0, 120, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute top-[60%] right-[25%] w-10 h-10 rounded-lg bg-cyan/10 blur-sm"
+        className="absolute top-[60%] right-[24%] w-16 h-16 pointer-events-none will-change-transform"
+        style={{ background: "radial-gradient(ellipse, rgba(0, 230, 255, 0.25) 0%, transparent 70%)" }}
         animate={{ y: [-15, 15, -15] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 4.7, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
           className="font-heading font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-navy-foreground leading-tight min-h-[2.5em] sm:min-h-[2.2em]"
         >
           Premium <span className="text-cyan">{currentText}</span>
-          <span className="animate-pulse">|</span>
+          <span className="animate-pulse will-change-opacity">|</span>
           <br />
           <span className="text-cmyk-gradient">Solutions</span>
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-6 max-w-2xl mx-auto text-navy-foreground/70 text-base sm:text-lg font-body"
         >
           Your trusted print partner in Ahmedabad. From business cards to large-format banners,
@@ -109,9 +113,9 @@ const Hero = () => {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <button
@@ -134,9 +138,9 @@ const Hero = () => {
 
         {/* Trust indicators */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.8 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-12 flex flex-wrap items-center justify-center gap-6 sm:gap-8"
         >
           {trustItems.map((item, i) => (

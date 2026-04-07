@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Stats from "@/components/Stats";
 import Services from "@/components/Services";
 import WhyChooseUs from "@/components/WhyChooseUs";
+import heroBg from "@/assets/hero-bg.jpg";
 
 import Portfolio from "@/components/Portfolio";
 import Testimonials from "@/components/Testimonials";
@@ -17,6 +18,7 @@ const Index = () => (
     <SEO
       title="Paras Graphics — Premium Printing Services in Ahmedabad"
       description="Your trusted printing partner since 1997. Business cards, brochures, banners, packaging & more. 50,000+ happy clients in Ahmedabad. Get a free quote today!"
+      prefetchImage={heroBg}
     />
     <Header />
     <Hero />

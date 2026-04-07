@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import ProgressiveImage from "./ui/ProgressiveImage";
+import { prefetchImages } from "@/lib/prefetcher";
 
 import bc1 from "@/assets/portfolio/business-cards-1.jpg";
 import bc2 from "@/assets/portfolio/business-cards-2.jpg";
@@ -141,6 +143,12 @@ const Portfolio = () => {
   );
 
   useEffect(() => {
+    // Background load all portfolio images as soon as the component is contextually alive
+    const allUrls = portfolioItems.map((item) => item.img);
+    prefetchImages(allUrls);
+  }, []);
+
+  useEffect(() => {
     if (lightbox === null) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeLightbox();
@@ -186,36 +194,40 @@ const Portfolio = () => {
         </div>
 
         {/* Grid — uses subgrid-friendly rows */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <motion.div
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+        >
           <AnimatePresence mode="popLayout">
             {visible.map((item, i) => (
               <motion.div
                 key={item.title}
                 layout
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-20px" }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ delay: i % 3 * 0.08, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-                whileHover={{ y: -6, boxShadow: "0 16px 36px -8px hsl(191 85% 50% / 0.2)" }}
+                transition={{ delay: (i % 3) * 0.05, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -6 }}
                 onClick={() => openLightbox(i)}
-                className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer"
+                className="group relative aspect-square rounded-xl cursor-pointer bg-muted/10 after:absolute after:inset-0 after:-z-10 after:rounded-xl after:shadow-[0_16px_36px_-8px_rgba(0,255,255,0.15)] after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300 after:will-change-opacity"
               >
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  width={800}
-                  height={800}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                  <span className="text-primary-foreground font-heading font-semibold text-sm">{item.title}</span>
-                  <span className="text-primary-foreground/60 text-xs mt-1">{item.category}</span>
+                <div className="absolute inset-0 overflow-hidden rounded-xl">
+                  <ProgressiveImage
+                    src={item.img}
+                    alt={item.title}
+                    containerClassName="w-full h-full"
+                    className="transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                    <span className="text-primary-foreground font-heading font-semibold text-sm">{item.title}</span>
+                    <span className="text-primary-foreground/60 text-xs mt-1">{item.category}</span>
+                  </div>
                 </div>
               </motion.div>
             ))}
           </AnimatePresence>
-        </div>
+        </motion.div>
 
         {remaining > 0 && (
           <div className="text-center mt-10">

@@ -96,6 +96,10 @@
   body {
     overflow-x: hidden;
   }
+  body.pause-animations * {
+    animation-play-state: paused !important;
+    transition: none !important;
+  }
 }
 
 /* Hide scrollbar for filter tabs */

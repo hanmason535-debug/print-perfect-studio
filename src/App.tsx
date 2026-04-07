@@ -12,10 +12,13 @@ import NotFound from "./pages/NotFound.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import Terms from "./pages/Terms.tsx";
 
+import { useTabVisibility } from "@/hooks/useTabVisibility";
+
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const AppContent = () => {
+  useTabVisibility();
+  return (
     <HelmetProvider>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
         <TooltipProvider>
@@ -34,6 +37,12 @@ const App = () => (
         </TooltipProvider>
       </ThemeProvider>
     </HelmetProvider>
+  );
+};
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <AppContent />
   </QueryClientProvider>
 );
 
