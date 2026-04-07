@@ -184,7 +184,7 @@ const Portfolio = () => {
               onClick={() => { setFilter(cat); setShowCount(9); }}
               className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                 filter === cat
-                  ? "bg-cyan text-primary-foreground shadow-md"
+                  ? "bg-cyan text-primary-foreground shadow-md shadow-[0_2px_8px_-2px_hsl(191_85%_50%/0.3)]"
                   : "bg-muted text-muted-foreground hover:bg-muted/80"
               }`}
             >
@@ -210,7 +210,7 @@ const Portfolio = () => {
                 transition={{ delay: (i % 3) * 0.05, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={{ y: -6 }}
                 onClick={() => openLightbox(i)}
-                className="group relative aspect-square rounded-xl cursor-pointer bg-muted/10 after:absolute after:inset-0 after:-z-10 after:rounded-xl after:shadow-[0_16px_36px_-8px_rgba(0,255,255,0.15)] after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300 after:will-change-opacity"
+                className="group relative aspect-square rounded-xl cursor-pointer bg-muted/10 border border-transparent hover:border-cyan/30 transition-[border-color] duration-400 after:absolute after:inset-0 after:-z-10 after:rounded-xl after:shadow-[0_16px_36px_-8px_rgba(0,255,255,0.15)] after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300 after:will-change-opacity"
               >
                 <div className="absolute inset-0 overflow-hidden rounded-xl">
                   <ProgressiveImage

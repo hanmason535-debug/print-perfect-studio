@@ -108,7 +108,7 @@ const Contact = () => {
                   <input
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
+                    className="focus-ring-glow w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm transition-shadow"
                     placeholder="Your name"
                     maxLength={100}
                   />
@@ -119,7 +119,7 @@ const Contact = () => {
                     type="email"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
+                    className="focus-ring-glow w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm transition-shadow"
                     placeholder="you@example.com"
                     maxLength={255}
                   />
@@ -130,7 +130,7 @@ const Contact = () => {
                     type="tel"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
+                    className="focus-ring-glow w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm transition-shadow"
                     placeholder="+91 XXXXX XXXXX"
                     maxLength={20}
                   />
@@ -141,7 +141,7 @@ const Contact = () => {
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-shadow resize-none"
+                    className="focus-ring-glow w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm transition-shadow resize-none"
                     placeholder="Tell us about your printing needs…"
                     maxLength={1000}
                   />
@@ -149,7 +149,7 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={sending}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-whatsapp text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all active:scale-95 disabled:opacity-60"
+                  className="shine-sweep w-full flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-whatsapp text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all active:scale-95 disabled:opacity-60"
                 >
                   <MessageCircle size={18} />
                   {sending ? "Sending…" : "Send Message via WhatsApp"}
@@ -169,7 +169,7 @@ const Contact = () => {
               <motion.div
                 key={item.title}
                 whileHover={{ x: 10 }}
-                className="flex items-start gap-4 group"
+                className="flex items-start gap-4 group border-l-[3px] border-transparent hover:border-cyan pl-3 transition-[border-color] duration-300"
               >
                 <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${item.color}`}>
                   <item.icon size={20} />
@@ -210,7 +210,7 @@ const Contact = () => {
                     key={s.label}
                     to={s.href}
                     aria-label={s.label}
-                    className={`w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground transition-all hover:scale-110 ${s.hover}`}
+                    className={`w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground transition-all duration-300 hover:scale-110 hover:rotate-[8deg] ${s.hover}`}
                   >
                     <s.icon size={18} />
                   </Link>

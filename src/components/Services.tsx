@@ -126,14 +126,14 @@ const Services = () => {
                   containerClassName="w-full h-full"
                   className="transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                   <span className="text-primary-foreground text-xs font-medium flex items-center gap-1">
                     <MessageCircle size={12} /> Inquire on WhatsApp
                   </span>
                 </div>
               </div>
               <div className="p-5 flex flex-col flex-grow">
-                <h3 className="font-heading font-semibold text-foreground text-base">{service.title}</h3>
+                <h3 className="font-heading font-semibold text-foreground text-base transition-colors duration-300 group-hover:text-cyan">{service.title}</h3>
                 <p className="mt-1.5 text-muted-foreground text-sm line-clamp-2">{service.desc}</p>
               </div>
             </motion.div>
@@ -179,7 +179,7 @@ const Services = () => {
             href={`https://wa.me/${PHONE}?text=${encodeURIComponent("Hi, I need a custom printing quote. Can we discuss my requirements?")}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan to-primary text-primary-foreground font-semibold text-sm shadow-lg hover:shadow-cyan-glow transition-all duration-300 active:scale-95"
+            className="shine-sweep inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan to-primary text-primary-foreground font-semibold text-sm shadow-lg hover:shadow-cyan-glow transition-all duration-300 active:scale-95"
           >
             <MessageCircle size={18} />
             Get Custom Quote

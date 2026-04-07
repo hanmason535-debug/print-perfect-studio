@@ -120,7 +120,7 @@ const Hero = () => {
         >
           <button
             onClick={() => setUploadOpen(true)}
-            className="group flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan to-primary text-primary-foreground font-semibold text-sm shadow-lg hover:shadow-cyan-glow transition-all duration-300 active:scale-95 min-w-[180px] justify-center"
+            className="shine-sweep group flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan to-primary text-primary-foreground font-semibold text-sm shadow-lg hover:shadow-cyan-glow transition-all duration-300 active:scale-95 min-w-[180px] justify-center"
           >
             <Upload size={18} />
             Upload File
@@ -145,7 +145,7 @@ const Hero = () => {
         >
           {trustItems.map((item, i) => (
             <div key={i} className="flex items-center gap-2">
-              <item.icon size={16} className={item.color} />
+              <item.icon size={16} className={`${item.color} icon-breathe`} style={{ animationDelay: `${i * 0.5}s` }} />
               <span className="text-navy-foreground/60 text-xs sm:text-sm font-medium">{item.label}</span>
             </div>
           ))}

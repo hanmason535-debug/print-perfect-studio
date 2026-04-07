@@ -115,9 +115,9 @@ const Header = () => {
             <NavigationMenuItem>
               <button
                 onClick={() => handleNav("#home")}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                className={`underline-slide px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                   activeSection === "home"
-                    ? "text-cyan bg-cyan/10"
+                    ? "text-cyan bg-cyan/10 scale-[1.02]"
                     : "text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/5"
                 }`}
               >
@@ -176,9 +176,9 @@ const Header = () => {
               <NavigationMenuItem key={link.href}>
                 <button
                   onClick={() => handleNav(link.href)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                  className={`underline-slide px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                     activeSection === link.href.slice(1)
-                      ? "text-cyan bg-cyan/10"
+                      ? "text-cyan bg-cyan/10 scale-[1.02]"
                       : "text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/5"
                   }`}
                 >
@@ -204,7 +204,7 @@ const Header = () => {
           </a>
           <a
             href={`tel:+${PHONE}`}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-cyan/20 text-cyan hover:bg-cyan/30 transition-colors"
+            className="shine-sweep flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-cyan/20 text-cyan hover:bg-cyan/30 transition-colors"
           >
             <Phone size={14} />
             Call
@@ -213,7 +213,7 @@ const Header = () => {
             href={WA_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-whatsapp/20 text-whatsapp hover:bg-whatsapp/30 transition-colors"
+            className="shine-sweep flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-whatsapp/20 text-whatsapp hover:bg-whatsapp/30 transition-colors"
           >
             <MessageCircle size={14} />
             WhatsApp

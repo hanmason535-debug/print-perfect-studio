@@ -117,6 +117,84 @@
   .shadow-premium {
     box-shadow: 0 10px 40px -10px hsl(215 40% 25% / 0.25);
   }
+
+  /* Hover lift — GPU-accelerated card lift */
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px hsl(215 40% 25% / 0.2);
+  }
+
+  /* Focus ring glow for inputs */
+  .focus-ring-glow {
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
+  }
+  .focus-ring-glow:focus {
+    outline: none;
+    border-color: hsl(191 85% 50% / 0.5);
+    box-shadow: 0 0 0 3px hsl(191 85% 50% / 0.15);
+  }
+
+  /* Shine sweep — glint on hover */
+  .shine-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .shine-sweep::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+    transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+  .shine-sweep:hover::after {
+    left: 100%;
+  }
+
+  /* Underline slide — link hover */
+  .underline-slide {
+    position: relative;
+  }
+  .underline-slide::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: hsl(191 85% 50%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .underline-slide:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Icon breathe keyframe */
+@keyframes icon-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.icon-breathe {
+  animation: icon-breathe 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .icon-breathe,
+  .shine-sweep::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 @keyframes pulse-glow {

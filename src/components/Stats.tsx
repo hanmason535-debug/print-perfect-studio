@@ -50,10 +50,10 @@ const StatItem = ({ stat, inView, index }: { stat: Stat; inView: boolean; index:
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.15, ease: [0.4, 0, 0.2, 1] }}
-      className="flex flex-col items-center gap-2 py-6"
+      className="flex flex-col items-center gap-2 py-6 group"
     >
-      <Icon size={28} className="text-cyan mb-1" />
-      <span className="text-3xl md:text-4xl font-heading font-bold text-primary-foreground">
+      <Icon size={28} className="text-cyan mb-1 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
+      <span className="text-3xl md:text-4xl font-heading font-bold text-primary-foreground tabular-nums">
         {display}{stat.suffix}
       </span>
       <span className="text-sm text-primary-foreground/60 font-medium">{stat.label}</span>

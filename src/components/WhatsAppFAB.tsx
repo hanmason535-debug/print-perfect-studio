@@ -41,7 +41,7 @@ const WhatsAppFAB = () => {
             href={WA_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-16 h-16 rounded-full bg-whatsapp flex items-center justify-center text-primary-foreground shadow-lg hover:brightness-110 transition-all active:scale-95"
+            className="w-16 h-16 rounded-full bg-whatsapp flex items-center justify-center text-primary-foreground shadow-lg hover:brightness-110 hover:shadow-[0_0_30px_8px_hsl(142_71%_45%/0.4)] transition-all duration-300 active:scale-95"
             style={{ animation: "pulse-glow 2s ease-in-out infinite" }}
             aria-label="Chat on WhatsApp"
           >
