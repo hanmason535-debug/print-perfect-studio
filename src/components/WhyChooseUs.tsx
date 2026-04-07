@@ -20,9 +20,9 @@ const WhyChooseUs = () => (
             viewport={{ once: true }}
             transition={{ delay: i * 0.12, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
             whileHover={{ y: -4, boxShadow: "0 12px 30px -8px hsl(191 85% 50% / 0.15)" }}
-            className="flex items-start gap-4 p-5 rounded-xl border border-border bg-card hover:shadow-sm transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+            className="flex items-start gap-4 p-5 rounded-xl border border-border border-b-2 border-b-transparent bg-card hover:border-b-cyan hover:shadow-sm transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
           >
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${f.color}`}>
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${f.color} group-hover:brightness-125`}>
               <f.icon size={22} />
             </div>
             <div>

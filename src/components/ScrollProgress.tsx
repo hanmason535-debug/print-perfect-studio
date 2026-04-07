@@ -12,7 +12,7 @@ const ScrollProgress = () => {
     <motion.button
       onClick={scrollToTop}
       style={{ opacity, willChange: "transform, opacity" }}
-      className="fixed bottom-28 right-[34px] z-40 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer group will-change-transform"
+      className="fixed bottom-28 right-[34px] z-40 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer group will-change-transform hover:shadow-[0_0_12px_hsl(191_85%_50%/0.3)] transition-shadow duration-300"
       aria-label="Scroll to top"
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}

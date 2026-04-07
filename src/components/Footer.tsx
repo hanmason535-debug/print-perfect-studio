@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Company */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan to-primary flex items-center justify-center font-heading font-bold text-primary-foreground text-lg transition-transform duration-300 hover:scale-110 hover:rotate-[5deg]">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan to-primary flex items-center justify-center font-heading font-bold text-primary-foreground text-lg transition-all duration-300 hover:scale-110 hover:rotate-[5deg] hover:shadow-[0_0_12px_hsl(191_85%_50%/0.3)]">
                 PG
               </div>
               <div>
@@ -32,7 +32,7 @@ const Footer = () => {
                 <li key={link}>
                   <a
                     href={`#${link.toLowerCase()}`}
-                    className="text-charcoal-foreground/60 text-sm hover:text-cyan transition-colors"
+                    className="underline-slide text-charcoal-foreground/60 text-sm hover:text-cyan transition-colors"
                   >
                     {link}
                   </a>
@@ -70,8 +70,8 @@ const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-charcoal-foreground/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-charcoal-foreground/40 text-xs">
+        <div className="h-px bg-gradient-to-r from-transparent via-charcoal-foreground/10 to-transparent mb-6" />
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
             © {new Date().getFullYear()} Paras Graphics, Ahmedabad. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
