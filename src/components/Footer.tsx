@@ -71,7 +71,8 @@ const Footer = () => {
 
         {/* Bottom */}
         <div className="h-px bg-gradient-to-r from-transparent via-charcoal-foreground/10 to-transparent mb-6" />
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-charcoal-foreground/40 text-xs">
             © {new Date().getFullYear()} Paras Graphics, Ahmedabad. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
