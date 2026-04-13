@@ -1,54 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 import ProgressiveImage from "./ui/ProgressiveImage";
 import { prefetchImages } from "@/lib/prefetcher";
 
-import businessCardsImg from "@/assets/services/business-cards.jpg";
-import bannersSignsImg from "@/assets/services/banners-signs.jpg";
-import customApparelImg from "@/assets/services/custom-apparel.jpg";
-import vinylStickersImg from "@/assets/services/vinyl-stickers.jpg";
-import brochuresFlyersImg from "@/assets/services/brochures-flyers.jpg";
-import flexPrintingImg from "@/assets/services/flex-printing.jpg";
-import letterheadsImg from "@/assets/services/letterheads.jpg";
-import weddingInvitationsImg from "@/assets/services/wedding-invitations.jpg";
-import photoPrintingImg from "@/assets/services/photo-printing.jpg";
-import canvasPrintsImg from "@/assets/services/canvas-prints.jpg";
-import standeesImg from "@/assets/services/standees.jpg";
-import backdropsImg from "@/assets/services/backdrops.jpg";
-import postersImg from "@/assets/services/posters.jpg";
-import billBooksImg from "@/assets/services/bill-books.jpg";
-import rubberStampsImg from "@/assets/services/rubber-stamps.jpg";
-import idCardsImg from "@/assets/services/id-cards.jpg";
-import certificatesImg from "@/assets/services/certificates.jpg";
-import packagingImg from "@/assets/services/packaging.jpg";
-import envelopesImg from "@/assets/services/envelopes.jpg";
-import pamphletsImg from "@/assets/services/pamphlets.jpg";
+import { supabase } from "@/lib/supabase";
 
 const PHONE = "919377476343";
 
-const services = [
-  { title: "Business Cards", desc: "Professional cards that make a lasting first impression with premium finishes.", img: businessCardsImg },
-  { title: "Banners & Signs", desc: "Eye-catching banners and signage for indoor and outdoor advertising.", img: bannersSignsImg },
-  { title: "Custom Apparel", desc: "Custom printed t-shirts, hoodies, caps and more for your brand or event.", img: customApparelImg },
-  { title: "Vinyl Stickers", desc: "Durable vinyl stickers and decals for branding, packaging, and decoration.", img: vinylStickersImg },
-  { title: "Brochures & Flyers", desc: "High-quality brochures and flyers to promote your business effectively.", img: brochuresFlyersImg },
-  { title: "Flex Printing", desc: "Large format flex printing for hoardings, shop boards, and event displays.", img: flexPrintingImg },
-  { title: "Letterheads", desc: "Corporate letterheads that reflect your brand's professionalism.", img: letterheadsImg },
-  { title: "Wedding Invitations", desc: "Beautifully designed wedding cards with premium paper and printing.", img: weddingInvitationsImg },
-  { title: "Photo Printing", desc: "High-resolution photo prints on premium paper in various sizes.", img: photoPrintingImg },
-  { title: "Canvas Prints", desc: "Gallery-quality canvas prints for home and office decor.", img: canvasPrintsImg },
-  { title: "Standees", desc: "Roll-up and cut-out standees for events, exhibitions, and promotions.", img: standeesImg },
-  { title: "Backdrops", desc: "Custom printed backdrops for events, photo booths, and stage setups.", img: backdropsImg },
-  { title: "Posters", desc: "Vibrant poster printing for advertising, art, and wall graphics.", img: postersImg },
-  { title: "Bill Books", desc: "Custom bill books and receipt pads for your business needs.", img: billBooksImg },
-  { title: "Rubber Stamps", desc: "Custom rubber stamps for business, personal, and official use.", img: rubberStampsImg },
-  { title: "ID Cards", desc: "Professional ID cards with photo printing and lamination.", img: idCardsImg },
-  { title: "Certificates", desc: "Custom certificates for events, awards, and recognition programs.", img: certificatesImg },
-  { title: "Packaging", desc: "Custom packaging boxes and labels for products and gifts.", img: packagingImg },
-  { title: "Envelopes", desc: "Branded envelopes that complement your corporate stationery.", img: envelopesImg },
-  { title: "Pamphlets", desc: "Informative pamphlets for marketing campaigns and events.", img: pamphletsImg },
-];
+type ServiceItem = {
+  id: string;
+  title: string;
+  description: string;
+  media_url: string;
+};
 
 /* stagger container + child variants */
 const containerVariants = {
@@ -72,13 +37,23 @@ const cardVariants = {
 
 const Services = () => {
   const [showAll, setShowAll] = useState(false);
-  const visible = showAll ? services : services.slice(0, 9);
+  const [services, setServices] = useState<ServiceItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  useState(() => {
-    // Prefetch service images when the component state or context is ready
-    const allUrls = services.map(s => s.img);
-    prefetchImages(allUrls);
-  });
+  useEffect(() => {
+    const fetchServices = async () => {
+      const { data } = await supabase.from("services").select("*").order("created_at", { ascending: true });
+      if (data) {
+        setServices(data);
+        const allUrls = data.map(s => s.media_url);
+        prefetchImages(allUrls);
+      }
+      setLoading(false);
+    };
+    fetchServices();
+  }, []);
+
+  const visible = showAll ? services : services.slice(0, 9);
 
   const openWhatsApp = (title: string) => {
     const msg = encodeURIComponent(`Hi, I'm interested in ${title} printing. Can you share details and pricing?`);
@@ -110,9 +85,13 @@ const Services = () => {
           viewport={{ once: true, margin: "-50px" }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {visible.map((service) => (
+          {loading && services.length === 0 ? (
+            <div className="col-span-1 sm:col-span-2 lg:col-span-3 py-12 flex justify-center">
+               <div className="w-8 h-8 rounded-full border-t-2 border-cyan animate-spin"></div>
+            </div>
+          ) : visible.map((service) => (
             <motion.div
-              key={service.title}
+              key={service.id}
               variants={cardVariants}
               whileHover={{ y: -8 }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
@@ -121,7 +100,7 @@ const Services = () => {
             >
               <div className="relative h-48 overflow-hidden rounded-t-xl flex-shrink-0 bg-muted/10">
                 <ProgressiveImage
-                  src={service.img}
+                  src={service.media_url}
                   alt={service.title}
                   containerClassName="w-full h-full"
                   className="transition-transform duration-500 group-hover:scale-110"
@@ -134,7 +113,7 @@ const Services = () => {
               </div>
               <div className="p-5 flex flex-col flex-grow">
                 <h3 className="font-heading font-semibold text-foreground text-base transition-colors duration-300 group-hover:text-cyan">{service.title}</h3>
-                <p className="mt-1.5 text-muted-foreground text-sm line-clamp-2">{service.desc}</p>
+                <p className="mt-1.5 text-muted-foreground text-sm line-clamp-2">{service.description}</p>
               </div>
             </motion.div>
           ))}

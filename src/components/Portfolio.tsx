@@ -4,37 +4,18 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import ProgressiveImage from "./ui/ProgressiveImage";
 import { prefetchImages } from "@/lib/prefetcher";
 
-import bc1 from "@/assets/portfolio/business-cards-1.jpg";
-import bc2 from "@/assets/portfolio/business-cards-2.jpg";
-import bc3 from "@/assets/portfolio/business-cards-3.jpg";
-import ban1 from "@/assets/portfolio/banner-1.jpg";
-import ban2 from "@/assets/portfolio/banner-2.jpg";
-import ban3 from "@/assets/portfolio/banner-3.jpg";
-import stk1 from "@/assets/portfolio/stickers-1.jpg";
-import stk2 from "@/assets/portfolio/stickers-2.jpg";
-import app1 from "@/assets/portfolio/apparel-1.jpg";
-import app2 from "@/assets/portfolio/apparel-2.jpg";
-import bro1 from "@/assets/portfolio/brochure-1.jpg";
-import bro2 from "@/assets/portfolio/brochure-2.jpg";
+import { supabase } from "@/lib/supabase";
+
+type PortfolioItem = {
+  id: string;
+  title: string;
+  category: string;
+  media_url: string;
+  is_video: boolean;
+};
 
 const categories = ["All", "Business Cards", "Banners", "Stickers", "Apparel", "Brochures"];
 
-const portfolioItems = [
-  { title: "Corporate Business Cards", category: "Business Cards", img: bc1 },
-  { title: "Event Banner Design", category: "Banners", img: ban1 },
-  { title: "Product Label Stickers", category: "Stickers", img: stk1 },
-  { title: "Team Uniforms", category: "Apparel", img: app1 },
-  { title: "Marketing Brochure", category: "Brochures", img: bro1 },
-  { title: "Premium Visiting Card", category: "Business Cards", img: bc2 },
-  { title: "Outdoor Hoarding", category: "Banners", img: ban2 },
-  { title: "Custom Vinyl Decals", category: "Stickers", img: stk2 },
-  { title: "Branded Polo Shirts", category: "Apparel", img: app2 },
-  { title: "Product Catalog", category: "Brochures", img: bro2 },
-  { title: "Luxury Business Card", category: "Business Cards", img: bc3 },
-  { title: "Exhibition Backdrop", category: "Banners", img: ban3 },
-];
-
-/* ── Lightbox sub-component ── */
 const Lightbox = ({
   item,
   index,
@@ -42,7 +23,7 @@ const Lightbox = ({
   onClose,
   onNav,
 }: {
-  item: (typeof portfolioItems)[0];
+  item: PortfolioItem;
   index: number;
   total: number;
   onClose: () => void;
@@ -104,11 +85,21 @@ const Lightbox = ({
         onClick={(e) => e.stopPropagation()}
         className="max-w-4xl max-h-[80vh] relative"
       >
-        <img
-          src={item.img}
-          alt={item.title}
-          className="max-w-full max-h-[80vh] object-contain rounded-lg"
-        />
+        {item.is_video ? (
+          <video
+            src={item.media_url}
+            className="max-w-full max-h-[80vh] object-contain rounded-lg"
+            autoPlay
+            controls
+            loop
+          />
+        ) : (
+          <img
+            src={item.media_url}
+            alt={item.title}
+            className="max-w-full max-h-[80vh] object-contain rounded-lg"
+          />
+        )}
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-navy/80 to-transparent rounded-b-lg">
           <p className="text-primary-foreground font-heading font-semibold">{item.title}</p>
           <p className="text-primary-foreground/60 text-sm">{item.category} · {index + 1} / {total}</p>
@@ -123,6 +114,21 @@ const Portfolio = () => {
   const [filter, setFilter] = useState("All");
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [showCount, setShowCount] = useState(9);
+  const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPortfolio = async () => {
+      const { data } = await supabase.from("portfolio").select("*").order("created_at", { ascending: false });
+      if (data) {
+        setPortfolioItems(data);
+        const allUrls = data.map((item) => item.media_url);
+        prefetchImages(allUrls);
+      }
+      setLoading(false);
+    };
+    fetchPortfolio();
+  }, []);
 
   const filtered = filter === "All" ? portfolioItems : portfolioItems.filter((p) => p.category === filter);
   const visible = filtered.slice(0, showCount);
@@ -141,12 +147,6 @@ const Portfolio = () => {
     },
     [filtered.length]
   );
-
-  useEffect(() => {
-    // Background load all portfolio images as soon as the component is contextually alive
-    const allUrls = portfolioItems.map((item) => item.img);
-    prefetchImages(allUrls);
-  }, []);
 
   useEffect(() => {
     if (lightbox === null) return;
@@ -199,7 +199,11 @@ const Portfolio = () => {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
           <AnimatePresence mode="popLayout">
-            {visible.map((item, i) => (
+            {loading && portfolioItems.length === 0 ? (
+              <motion.div layout className="col-span-1 sm:col-span-2 lg:col-span-3 py-12 flex justify-center">
+                 <div className="w-8 h-8 rounded-full border-t-2 border-cyan animate-spin"></div>
+              </motion.div>
+            ) : visible.map((item, i) => (
               <motion.div
                 key={item.title}
                 layout
@@ -213,12 +217,23 @@ const Portfolio = () => {
                 className="group relative aspect-square rounded-xl cursor-pointer bg-muted/10 border border-transparent hover:border-cyan/30 transition-[border-color] duration-400 after:absolute after:inset-0 after:-z-10 after:rounded-xl after:shadow-[0_16px_36px_-8px_rgba(0,255,255,0.15)] after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300 after:will-change-opacity"
               >
                 <div className="absolute inset-0 overflow-hidden rounded-xl">
-                  <ProgressiveImage
-                    src={item.img}
-                    alt={item.title}
-                    containerClassName="w-full h-full"
-                    className="transition-transform duration-500 group-hover:scale-110"
-                  />
+                  {item.is_video ? (
+                    <video
+                      src={item.media_url}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    />
+                  ) : (
+                    <ProgressiveImage
+                      src={item.media_url}
+                      alt={item.title}
+                      containerClassName="w-full h-full"
+                      className="transition-transform duration-500 group-hover:scale-110"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
                     <span className="text-primary-foreground font-heading font-semibold text-sm">{item.title}</span>
                     <span className="text-primary-foreground/60 text-xs mt-1">{item.category}</span>

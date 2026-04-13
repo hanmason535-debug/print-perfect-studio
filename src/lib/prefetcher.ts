@@ -15,7 +15,7 @@ export const prefetchImages = (urls: string[]) => {
 
   // Use requestIdleCallback if available, otherwise fallback to setTimeout
   if ("requestIdleCallback" in window) {
-    (window as any).requestIdleCallback(prefetch);
+    (window as unknown as { requestIdleCallback: (cb: () => void) => void }).requestIdleCallback(prefetch);
   } else {
     setTimeout(prefetch, 1000);
   }
