@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { MapPin, Mail, Phone, Clock, Facebook, Instagram, Linkedin, MessageCircle } from "lucide-react";
 import { BorderBeam } from "@/registry/magicui/border-beam";
@@ -206,14 +205,16 @@ const Contact = () => {
               <p className="text-sm font-medium text-foreground mb-3">Follow Us</p>
               <div className="flex gap-3">
                 {socials.map((s) => (
-                  <Link
+                  <a
                     key={s.label}
-                    to={s.href}
+                    href={s.href}
                     aria-label={s.label}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={`w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground transition-all duration-300 hover:scale-110 hover:rotate-[8deg] ${s.hover}`}
                   >
                     <s.icon size={18} />
-                  </Link>
+                  </a>
                 ))}
               </div>
             </div>

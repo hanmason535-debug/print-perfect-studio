@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, LogOut, Plus, Image as ImageIcon, Trash2, Video } from "lucide-react";
+import { Loader2, LogOut } from "lucide-react";
 import SEO from "@/components/SEO";
 
 // Custom Admin Sub-components

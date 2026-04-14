@@ -24,8 +24,11 @@ export default function PortfolioManager() {
 
   const fetchPortfolio = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase.auth.getSession();
-    if (!data.session) return; // double check
+    const { data } = await supabase.auth.getSession();
+    if (!data.session) {
+      setLoading(false);
+      return;
+    }
 
     const { data: dbData, error: dbError } = await supabase
       .from("portfolio")
