@@ -54,7 +54,7 @@ const Contact = () => {
 
     setSending(true);
     const msg = `New inquiry from website:\n\nName: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone || "N/A"}\n\nMessage:\n${form.message}`;
-    window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
     setSending(false);
     setForm({ name: "", email: "", phone: "", message: "", honey: "" });
     toast({ title: "Redirecting to WhatsApp…" });

@@ -133,9 +133,9 @@ const FileUploadModal = ({ open, onOpenChange }: FileUploadModalProps) => {
 
       // Upload each file
       for (const f of files) {
-        const fileExt = f.file.name.split('.').pop();
-        // create random filename to prevent collisions, but keep original extension
-        const uniqueName = `upload_${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+        const fileExt = (f.file.name.split('.').pop() ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+        // create cryptographically random filename to prevent collisions and path traversal
+        const uniqueName = `upload_${crypto.randomUUID()}.${fileExt}`;
         const filePath = `public/${uniqueName}`;
 
         const { error: uploadError } = await supabase.storage
@@ -184,7 +184,7 @@ const FileUploadModal = ({ open, onOpenChange }: FileUploadModalProps) => {
 
   const handleWhatsAppConfirm = () => {
     const msg = encodeURIComponent(`Hi PrintPerfect! I just uploaded ${uploadedFiles.length} files (${uploadedFiles.slice(0,2).join(", ")}${uploadedFiles.length > 2 ? "..." : ""}) for printing. My phone number is ${lastPhone}. Please process my order.`);
-    window.open(`https://wa.me/919377476343?text=${msg}`, "_blank");
+    window.open(`https://wa.me/919377476343?text=${msg}`, "_blank", "noopener,noreferrer");
     handleClose(false);
   };
 
