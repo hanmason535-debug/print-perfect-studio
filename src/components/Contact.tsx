@@ -90,14 +90,14 @@ const Contact = () => {
               <BorderBeam
                 duration={6}
                 size={400}
-                className="from-transparent via-red-500 to-transparent"
+                className="from-transparent via-[hsl(var(--magenta))] to-transparent"
               />
               <BorderBeam
                 duration={6}
                 delay={3}
                 size={400}
                 borderWidth={2}
-                className="from-transparent via-blue-500 to-transparent"
+                className="from-transparent via-[hsl(var(--cyan))] to-transparent"
               />
 
               <h3 className="font-heading font-semibold text-lg text-foreground mb-6">Send us a Message</h3>

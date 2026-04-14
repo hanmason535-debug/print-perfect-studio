@@ -7,7 +7,7 @@ const swatches = [
     id: "matte",
     name: "Premium Matte",
     description: "Elegant, soft-touch finish with zero glare. Perfect for minimalist corporate branding.",
-    color: "bg-zinc-800",
+    color: "bg-charcoal",
     shine: "bg-white/5",
     effect: "Soft Velvet Texture",
   },
@@ -15,7 +15,7 @@ const swatches = [
     id: "gloss",
     name: "Glossy UV",
     description: "High-shine protective coating that makes colors pop and provides water resistance.",
-    color: "bg-zinc-900",
+    color: "bg-navy",
     shine: "bg-gradient-to-br from-white/30 via-transparent to-transparent",
     effect: "Glass-like Shine",
   },
@@ -23,7 +23,7 @@ const swatches = [
     id: "spot-uv",
     name: "Spot UV",
     description: "Strategic gloss highlights on a matte background. Adds incredible depth and tactile feel.",
-    color: "bg-zinc-800",
+    color: "bg-charcoal",
     patterns: true,
     effect: "Raised Selective Gloss",
   },
@@ -99,7 +99,7 @@ const MaterialSwatches = () => {
 
           {/* Large Preview */}
           <div 
-            className="relative aspect-square sm:aspect-video lg:aspect-square rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl group"
+            className="relative aspect-square sm:aspect-video lg:aspect-square rounded-2xl overflow-hidden bg-charcoal border border-white/5 shadow-2xl group"
             onMouseMove={handleMouseMove}
           >
             {/* Base Color */}

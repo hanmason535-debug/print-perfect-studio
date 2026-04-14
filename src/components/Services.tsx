@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 import ProgressiveImage from "./ui/ProgressiveImage";
 import { prefetchImages } from "@/lib/prefetcher";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { supabase } from "@/lib/supabase";
 
@@ -86,9 +87,16 @@ const Services = () => {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {loading && services.length === 0 ? (
-            <div className="col-span-1 sm:col-span-2 lg:col-span-3 py-12 flex justify-center">
-               <div className="w-8 h-8 rounded-full border-t-2 border-cyan animate-spin"></div>
-            </div>
+            Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="bg-card rounded-xl border border-border shadow-sm flex flex-col">
+                <Skeleton className="h-48 rounded-t-xl rounded-b-none" />
+                <div className="p-5 flex flex-col gap-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-full" />
+                  <Skeleton className="h-3 w-2/3" />
+                </div>
+              </div>
+            ))
           ) : visible.map((service) => (
             <motion.div
               key={service.id}

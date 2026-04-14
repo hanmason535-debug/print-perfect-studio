@@ -80,7 +80,7 @@ const OurProcess = () => {
         </div>
 
         {/* Mobile vertical timeline */}
-        <div className="md:hidden relative pl-10">
+        <div className="md:hidden relative pl-14">
           {/* Vertical line */}
           <div className="absolute left-4 top-0 bottom-0 w-px bg-border/30" />
           <motion.div
@@ -98,8 +98,10 @@ const OurProcess = () => {
                 transition={{ delay: i * 0.15, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
                 className="relative"
               >
-                {/* Dot on line */}
-                <div className={`absolute -left-10 top-1 w-3 h-3 rounded-full border-2 ${i === 0 ? "bg-cyan border-cyan" : i === 1 ? "bg-magenta border-magenta" : i === 2 ? "bg-yellow border-yellow" : "bg-cyan border-cyan"}`} />
+                {/* Icon circle on line */}
+                <div className={`absolute -left-14 top-0 w-10 h-10 rounded-xl border flex items-center justify-center ${iconColors[i]}`}>
+                  <step.icon size={18} strokeWidth={1.5} />
+                </div>
                 <span className="text-xs text-muted-foreground font-medium">Step {i + 1}</span>
                 <h3 className="font-heading font-semibold text-sm text-foreground">{step.label}</h3>
                 <p className="text-xs text-muted-foreground mt-0.5">{step.desc}</p>

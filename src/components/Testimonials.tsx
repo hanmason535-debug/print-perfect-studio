@@ -93,7 +93,7 @@ const Testimonials = () => {
                   key={i}
                   className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_48%] lg:flex-[0_0_31%] px-1"
                 >
-                  <div className="h-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 flex flex-col gap-4 transition-all duration-300 hover:border-cyan/30 hover:bg-white/[0.08]">
+                  <div className="h-full rounded-2xl border border-border/40 bg-card/10 backdrop-blur-sm p-6 flex flex-col gap-4 transition-all duration-300 hover:border-cyan/30 hover:bg-card/20">
                     <div className="flex gap-1">
                       {Array.from({ length: 5 }).map((_, s) => (
                         <Star
@@ -106,7 +106,7 @@ const Testimonials = () => {
                     <p className="text-primary-foreground/80 text-sm leading-relaxed flex-1">
                       "{t.quote}"
                     </p>
-                    <div className="flex items-center gap-3 pt-2 border-t border-white/10">
+                    <div className="flex items-center gap-3 pt-2 border-t border-border/20">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan to-secondary flex items-center justify-center text-primary-foreground text-xs font-bold transition-transform duration-300 hover:scale-110">
                         {t.initials}
                       </div>

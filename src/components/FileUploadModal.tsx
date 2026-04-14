@@ -219,7 +219,7 @@ const FileUploadModal = ({ open, onOpenChange }: FileUploadModalProps) => {
             </div>
             <h3 className="font-heading font-semibold text-xl">Upload Successful!</h3>
             <p className="text-muted-foreground text-sm max-w-[280px]">
-              Files are saved. Now, please **Confirm on WhatsApp** to verify your number and process your order.
+              Files are saved. Now, please <strong>Confirm on WhatsApp</strong> to verify your number and process your order.
             </p>
             <button
               onClick={handleWhatsAppConfirm}

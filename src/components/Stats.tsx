@@ -17,7 +17,7 @@ const stats: Stat[] = [
   { icon: Zap, value: 24, suffix: "hr", label: "Express Delivery" },
 ];
 
-const formatNumber = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}K` : n >= 1000000 ? `${(n / 1000000).toFixed(0)}M` : String(n));
+const formatNumber = (n: number) => (n >= 1000000 ? `${(n / 1000000).toFixed(0)}M` : n >= 1000 ? `${(n / 1000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}K` : String(n));
 
 const useCountUp = (target: number, trigger: boolean, duration = 2000) => {
   const [count, setCount] = useState(0);

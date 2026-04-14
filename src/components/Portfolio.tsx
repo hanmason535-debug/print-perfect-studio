@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import ProgressiveImage from "./ui/ProgressiveImage";
 import { prefetchImages } from "@/lib/prefetcher";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { supabase } from "@/lib/supabase";
 
@@ -200,9 +201,11 @@ const Portfolio = () => {
         >
           <AnimatePresence mode="popLayout">
             {loading && portfolioItems.length === 0 ? (
-              <motion.div layout className="col-span-1 sm:col-span-2 lg:col-span-3 py-12 flex justify-center">
-                 <div className="w-8 h-8 rounded-full border-t-2 border-cyan animate-spin"></div>
-              </motion.div>
+              Array.from({ length: 6 }).map((_, i) => (
+                <motion.div key={i} layout className="aspect-square rounded-xl overflow-hidden">
+                  <Skeleton className="w-full h-full rounded-xl" />
+                </motion.div>
+              ))
             ) : visible.map((item, i) => (
               <motion.div
                 key={item.title}

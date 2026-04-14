@@ -1,4 +1,5 @@
 import { Phone, Mail, Clock } from "lucide-react";
+import { motion } from "framer-motion";
 
 const PHONE = "919377476343";
 
@@ -9,7 +10,12 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
           {/* Company */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+          >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan to-primary flex items-center justify-center font-heading font-bold text-primary-foreground text-lg transition-all duration-300 hover:scale-110 hover:rotate-[5deg] hover:shadow-[0_0_12px_hsl(191_85%_50%/0.3)]">
                 PG
@@ -22,10 +28,15 @@ const Footer = () => {
             <p className="text-charcoal-foreground/60 text-sm leading-relaxed">
               Your trusted printing partner in Ahmedabad. Delivering premium quality prints since 1997.
             </p>
-          </div>
+          </motion.div>
 
           {/* Quick Links */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
+          >
             <h4 className="font-heading font-semibold text-sm mb-4">Quick Links</h4>
             <ul className="space-y-2">
               {["Services", "Portfolio", "Contact"].map((link) => (
@@ -50,10 +61,15 @@ const Footer = () => {
                 </button>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Contact */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
+          >
             <h4 className="font-heading font-semibold text-sm mb-4">Contact</h4>
             <div className="space-y-3">
               <a href={`tel:+${PHONE}`} className="flex items-center gap-2 text-charcoal-foreground/60 text-sm hover:text-cyan transition-colors">
@@ -66,7 +82,7 @@ const Footer = () => {
                 <Clock size={14} /> Mon–Sat: 11AM–8PM
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Bottom */}
