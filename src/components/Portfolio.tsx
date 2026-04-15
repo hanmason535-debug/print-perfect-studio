@@ -208,7 +208,7 @@ const Portfolio = () => {
               ))
             ) : visible.map((item, i) => (
               <motion.div
-                key={item.title}
+                key={item.id}
                 layout
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
