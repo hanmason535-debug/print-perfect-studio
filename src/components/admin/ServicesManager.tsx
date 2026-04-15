@@ -40,17 +40,29 @@ export default function ServicesManager() {
     fetchServices();
   }, [fetchServices]);
 
+  const ALLOWED_SERVICE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+  const ALLOWED_SERVICE_EXTENSIONS = ["jpg", "jpeg", "png", "webp"];
+
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file) {
       toast({ title: "Please select an image", variant: "destructive" });
       return;
     }
+    if (!ALLOWED_SERVICE_TYPES.includes(file.type)) {
+      toast({ title: "Unsupported file type", description: "Please upload a JPEG, PNG, or WebP image.", variant: "destructive" });
+      return;
+    }
+    const rawExt = (file.name.split('.').pop() ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (!ALLOWED_SERVICE_EXTENSIONS.includes(rawExt)) {
+      toast({ title: "Unsupported file extension", variant: "destructive" });
+      return;
+    }
     setAdding(true);
 
     try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
+      const fileExt = rawExt;
+      const fileName = `${crypto.randomUUID()}.${fileExt}`;
       const filePath = `public/${fileName}`;
 
       const { error: uploadError } = await supabase.storage

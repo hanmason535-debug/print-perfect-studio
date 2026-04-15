@@ -58,7 +58,7 @@ const Services = () => {
 
   const openWhatsApp = (title: string) => {
     const msg = encodeURIComponent(`Hi, I'm interested in ${title} printing. Can you share details and pricing?`);
-    window.open(`https://wa.me/${PHONE}?text=${msg}`, "_blank");
+    window.open(`https://wa.me/${PHONE}?text=${msg}`, "_blank", "noopener,noreferrer");
   };
 
   return (

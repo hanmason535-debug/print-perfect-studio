@@ -44,17 +44,29 @@ export default function PortfolioManager() {
     fetchPortfolio();
   }, [fetchPortfolio]);
 
+  const ALLOWED_PORTFOLIO_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "video/mp4", "video/webm"];
+  const ALLOWED_PORTFOLIO_EXTENSIONS = ["jpg", "jpeg", "png", "webp", "gif", "mp4", "webm"];
+
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file) {
       toast({ title: "Please select a file", variant: "destructive" });
       return;
     }
+    if (!ALLOWED_PORTFOLIO_TYPES.includes(file.type)) {
+      toast({ title: "Unsupported file type", description: "Please upload an image (JPEG, PNG, WebP, GIF) or video (MP4, WebM).", variant: "destructive" });
+      return;
+    }
+    const rawExt = (file.name.split('.').pop() ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (!ALLOWED_PORTFOLIO_EXTENSIONS.includes(rawExt)) {
+      toast({ title: "Unsupported file extension", variant: "destructive" });
+      return;
+    }
     setAdding(true);
 
     try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
+      const fileExt = rawExt;
+      const fileName = `${crypto.randomUUID()}.${fileExt}`;
       const filePath = `public/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
