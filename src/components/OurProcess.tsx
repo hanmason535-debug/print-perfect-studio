@@ -44,7 +44,7 @@ const OurProcess = () => {
         {/* Desktop horizontal timeline */}
         <div className="hidden md:block relative">
           {/* Connecting line background */}
-          <div className="absolute top-10 left-[12.5%] right-[12.5%] h-px bg-border/30" />
+          <div className="absolute top-10 left-[12.5%] right-[12.5%] h-px bg-navy-foreground/20" />
           {/* Animated line */}
           <motion.div
             className="absolute top-10 left-[12.5%] h-px bg-gradient-to-r from-cyan via-magenta to-yellow"
@@ -71,9 +71,9 @@ const OurProcess = () => {
                 <div className={`w-20 h-20 rounded-2xl border flex items-center justify-center mb-4 ${iconColors[i]}`}>
                   <step.icon size={28} strokeWidth={1.5} />
                 </div>
-                <span className="text-xs text-muted-foreground font-medium mb-1">Step {i + 1}</span>
-                <h3 className="font-heading font-semibold text-sm text-foreground">{step.label}</h3>
-                <p className="text-xs text-muted-foreground mt-1 max-w-[180px]">{step.desc}</p>
+                <span className="text-xs text-navy-foreground/50 font-medium mb-1">Step {i + 1}</span>
+                <h3 className="font-heading font-semibold text-sm text-navy-foreground">{step.label}</h3>
+                <p className="text-xs text-navy-foreground/60 mt-1 max-w-[180px]">{step.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -82,7 +82,7 @@ const OurProcess = () => {
         {/* Mobile vertical timeline */}
         <div className="md:hidden relative pl-14">
           {/* Vertical line */}
-          <div className="absolute left-4 top-0 bottom-0 w-px bg-border/30" />
+          <div className="absolute left-4 top-0 bottom-0 w-px bg-navy-foreground/20" />
           <motion.div
             className="absolute left-4 top-0 w-px bg-gradient-to-b from-cyan via-magenta to-yellow"
             style={{ height: lineWidth }}
@@ -102,9 +102,9 @@ const OurProcess = () => {
                 <div className={`absolute -left-14 top-0 w-10 h-10 rounded-xl border flex items-center justify-center ${iconColors[i]}`}>
                   <step.icon size={18} strokeWidth={1.5} />
                 </div>
-                <span className="text-xs text-muted-foreground font-medium">Step {i + 1}</span>
-                <h3 className="font-heading font-semibold text-sm text-foreground">{step.label}</h3>
-                <p className="text-xs text-muted-foreground mt-0.5">{step.desc}</p>
+                <span className="text-xs text-navy-foreground/50 font-medium">Step {i + 1}</span>
+                <h3 className="font-heading font-semibold text-sm text-navy-foreground">{step.label}</h3>
+                <p className="text-xs text-navy-foreground/60 mt-0.5">{step.desc}</p>
               </motion.div>
             ))}
           </div>
