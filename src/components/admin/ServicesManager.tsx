@@ -46,6 +46,7 @@ export default function ServicesManager() {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!supabase) return;
     if (!file) {
       toast({ title: "Please select an image", variant: "destructive" });
       return;
