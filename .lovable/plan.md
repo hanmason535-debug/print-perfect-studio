@@ -1,27 +1,47 @@
-## Why the site is blank
+# SEO Fixes (No-Input Items)
 
-`src/lib/supabase.ts` throws at module load when `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` are missing:
+Apply all SEO improvements that don't require user-specific data. Skip items needing the production domain, real street address, social URLs, and Twitter handle — leave those as-is or use safe placeholders to be filled later.
 
-```
-Error: Missing Supabase environment variables
-  at src/lib/supabase.ts:5
-```
+## Changes
 
-No `.env` exists and Lovable Cloud isn't connected, so both vars are `undefined`. Although only `Admin.tsx` and the admin managers import this file, the throw happens at the top level of a module that's part of the bundle graph — crashing the whole app and leaving a white screen on `/`.
+### 1. `index.html`
+- Replace Lovable default `og:image` and `twitter:image` with a local `/og-image.jpg` (generated branded image, 1200×630).
+- Remove `<meta name="twitter:site" content="@Lovable" />` (no real handle yet).
+- Fix `apple-touch-icon` to point to a proper PNG (`/apple-touch-icon.png`, 180×180) instead of `.ico`.
+- Add `<link rel="canonical" href="https://parasgraphics.com/" />` (kept as current assumed domain in JSON-LD).
+- JSON-LD: keep `streetAddress` as `"Ahmedabad"` (placeholder), keep `sameAs: []` empty, but update the `image` field to `/og-image.jpg`. Add `areaServed: "Ahmedabad"` and `@id` for the business.
 
-(The `/manifest.json` 401 in the console is unrelated preview gating and harmless.)
+### 2. `public/manifest.json`
+- Add 192×192 and 512x512 PNG icons (`/icon-192.png`, `/icon-512.png`, both `purpose: "any maskable"`).
+- Keep existing favicon entry.
 
-## Fix
+### 3. `public/robots.txt`
+- Replace `Disallow: /admin/` with `Disallow: /admin` (covers exact route too).
+- Leave the `Sitemap:` line pointing to `https://parasgraphics.com/sitemap.xml` (current assumed domain, can be updated later).
 
-1. **`src/lib/supabase.ts`** — remove the top-level `throw`. Export `supabase` as a real client when env vars exist, otherwise `null`. Type as `SupabaseClient | null`.
-2. **`src/pages/Admin.tsx`** — if `supabase` is `null`, render a friendly "Connect Lovable Cloud to enable the admin" notice instead of calling auth methods.
-3. **`src/components/admin/PortfolioManager.tsx`** and **`src/components/admin/ServicesManager.tsx`** — early-return a disabled state when `supabase` is `null`; guard all `supabase.*` calls.
+### 4. `public/sitemap.xml`
+- Add entries for `/`, `/privacy-policy`, `/terms` with appropriate `changefreq` and `priority`. Add `<lastmod>` dates.
+- Keep `https://parasgraphics.com` as base.
 
-## Result
+### 5. `src/components/SEO.tsx`
+- No structural change needed; already supports canonical + robots. Confirm `og:site_name` is added (`Paras Graphics`).
 
-- `/` (home) renders normally — no more blank screen.
-- `/admin` shows a clear setup notice until Lovable Cloud is enabled, then works automatically.
+### 6. `src/pages/Index.tsx`
+- Pass `canonical="https://parasgraphics.com/"` and `ogImage="/og-image.jpg"` to `<SEO />`.
 
-## Optional follow-up
+### 7. `src/pages/PrivacyPolicy.tsx` & `src/pages/Terms.tsx`
+- Add `canonical` prop pointing to their respective URLs.
 
-Enable **Lovable Cloud** (Cloud tab) to auto-provision Supabase env vars so the admin actually functions. No further code changes needed after that.
+### 8. Asset generation
+- Generate three branded PNGs via script using existing brand colors (navy `#0a1628`, cyan accent) and "Paras Graphics — Print Perfect" wordmark:
+  - `public/og-image.jpg` (1200×630)
+  - `public/apple-touch-icon.png` (180×180)
+  - `public/icon-192.png` (192×192)
+  - `public/icon-512.png` (512×512)
+- QA each by inspecting the rendered images.
+
+## Items Skipped (need your input later)
+- Production domain confirmation (assuming `parasgraphics.com`)
+- Real street address & postal code in JSON-LD
+- Social profile URLs (`sameAs`)
+- Twitter/X handle
