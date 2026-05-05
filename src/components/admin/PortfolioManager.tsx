@@ -23,10 +23,13 @@ export default function PortfolioManager() {
   const { toast } = useToast();
 
   const fetchPortfolio = useCallback(async () => {
+    if (!supabase) { setLoading(false); return; }
     setLoading(true);
     const { data } = await supabase.auth.getSession();
     if (!data.session) {
       setLoading(false);
+      return;
+    }
       return;
     }
 
