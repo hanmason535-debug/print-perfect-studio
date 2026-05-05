@@ -49,9 +49,24 @@ export default function Admin() {
   };
 
   const handleLogout = async () => {
+    if (!supabase) return;
     await supabase.auth.signOut();
     toast({ title: "Logged out" });
   };
+
+  if (!supabase) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <SEO title="Admin — Setup Required" description="Enable Lovable Cloud to use admin features." />
+        <div className="bg-card max-w-md w-full p-8 rounded-2xl border border-border text-center">
+          <h1 className="text-2xl font-heading font-bold text-foreground mb-2">Admin Disabled</h1>
+          <p className="text-muted-foreground text-sm">
+            Connect <strong>Lovable Cloud</strong> (or set <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code>) to enable the admin portal.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
