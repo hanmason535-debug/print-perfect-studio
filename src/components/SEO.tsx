@@ -16,6 +16,7 @@ const SEO = ({ title, description, ogImage, canonical, ogType = "website", robot
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
     {prefetchImage && <link rel="preload" as="image" href={prefetchImage} />}
+    <meta property="og:site_name" content="Paras Graphics" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />

@@ -1,10 +1,11 @@
 User-agent: *
 Allow: /
 
-Disallow: /api/
+Disallow: /admin
 Disallow: /admin/
+Disallow: /api/
 Disallow: /.env
 Disallow: /.git/
 Disallow: /.well-known/
 
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://parasgraphics.com/sitemap.xml
