@@ -110,6 +110,7 @@ export default function PortfolioManager() {
   };
 
   const handleDelete = async (id: string, url: string) => {
+    if (!supabase) return;
     if (!confirm("Are you sure you want to delete this item?")) return;
     
     try {
