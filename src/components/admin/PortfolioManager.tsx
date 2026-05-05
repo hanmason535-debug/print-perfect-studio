@@ -53,6 +53,7 @@ export default function PortfolioManager() {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!supabase) return;
     if (!file) {
       toast({ title: "Please select a file", variant: "destructive" });
       return;
