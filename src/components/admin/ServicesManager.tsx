@@ -22,6 +22,7 @@ export default function ServicesManager() {
   const { toast } = useToast();
 
   const fetchServices = useCallback(async () => {
+    if (!supabase) { setLoading(false); return; }
     setLoading(true);
     const { data: dbData, error: dbError } = await supabase
       .from("services")
