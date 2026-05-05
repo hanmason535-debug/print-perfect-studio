@@ -6,6 +6,15 @@ import { prefetchImages } from "@/lib/prefetcher";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { supabase } from "@/lib/supabase";
+import businessCardsImg from "@/assets/services/business-cards.jpg";
+import bannersImg from "@/assets/services/banners-signs.jpg";
+import stickersImg from "@/assets/services/vinyl-stickers.jpg";
+import apparelImg from "@/assets/services/custom-apparel.jpg";
+import brochuresImg from "@/assets/services/brochures-flyers.jpg";
+import packagingImg from "@/assets/services/packaging.jpg";
+import postersImg from "@/assets/services/posters.jpg";
+import weddingInvitesImg from "@/assets/services/wedding-invitations.jpg";
+import idCardsImg from "@/assets/services/id-cards.jpg";
 
 const PHONE = "919377476343";
 
@@ -15,6 +24,18 @@ type ServiceItem = {
   description: string;
   media_url: string;
 };
+
+const fallbackServices: ServiceItem[] = [
+  { id: "business-cards", title: "Business Cards", description: "Premium cards with sharp print, rich stock, and refined finishes.", media_url: businessCardsImg },
+  { id: "banners", title: "Banners & Signs", description: "Large-format prints for storefronts, events, promotions, and exhibitions.", media_url: bannersImg },
+  { id: "stickers", title: "Vinyl Stickers", description: "Durable custom stickers with vivid colour and clean cutting.", media_url: stickersImg },
+  { id: "apparel", title: "Custom Apparel", description: "Branded t-shirts, uniforms, and merchandise for teams and events.", media_url: apparelImg },
+  { id: "brochures", title: "Brochures & Flyers", description: "Professional marketing collateral designed to feel crisp and premium.", media_url: brochuresImg },
+  { id: "packaging", title: "Packaging", description: "Custom boxes, labels, and packaging prints for memorable presentation.", media_url: packagingImg },
+  { id: "posters", title: "Posters", description: "High-impact posters with accurate colours and clean finishing.", media_url: postersImg },
+  { id: "wedding-invitations", title: "Wedding Invitations", description: "Elegant invitations and stationery for special occasions.", media_url: weddingInvitesImg },
+  { id: "id-cards", title: "ID Cards", description: "Reliable ID card printing for offices, schools, and events.", media_url: idCardsImg },
+];
 
 /* stagger container + child variants */
 const containerVariants = {
@@ -43,13 +64,27 @@ const Services = () => {
 
   useEffect(() => {
     const fetchServices = async () => {
-      const { data } = await supabase.from("services").select("*").order("created_at", { ascending: true });
-      if (data) {
-        setServices(data);
-        const allUrls = data.map(s => s.media_url);
-        prefetchImages(allUrls);
+      if (!supabase) {
+        setServices(fallbackServices);
+        prefetchImages(fallbackServices.map((service) => service.media_url));
+        setLoading(false);
+        return;
       }
-      setLoading(false);
+
+      try {
+        const { data, error } = await supabase.from("services").select("*").order("created_at", { ascending: true });
+        if (error) throw error;
+
+        const nextServices = data && data.length > 0 ? data : fallbackServices;
+        setServices(nextServices);
+        const allUrls = nextServices.map(s => s.media_url);
+        prefetchImages(allUrls);
+      } catch {
+        setServices(fallbackServices);
+        prefetchImages(fallbackServices.map((service) => service.media_url));
+      } finally {
+        setLoading(false);
+      }
     };
     fetchServices();
   }, []);
