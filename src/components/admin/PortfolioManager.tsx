@@ -30,8 +30,6 @@ export default function PortfolioManager() {
       setLoading(false);
       return;
     }
-      return;
-    }
 
     const { data: dbData, error: dbError } = await supabase
       .from("portfolio")
