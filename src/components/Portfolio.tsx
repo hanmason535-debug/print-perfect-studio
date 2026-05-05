@@ -6,6 +6,18 @@ import { prefetchImages } from "@/lib/prefetcher";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { supabase } from "@/lib/supabase";
+import businessCards1 from "@/assets/portfolio/business-cards-1.jpg";
+import businessCards2 from "@/assets/portfolio/business-cards-2.jpg";
+import businessCards3 from "@/assets/portfolio/business-cards-3.jpg";
+import banner1 from "@/assets/portfolio/banner-1.jpg";
+import banner2 from "@/assets/portfolio/banner-2.jpg";
+import banner3 from "@/assets/portfolio/banner-3.jpg";
+import stickers1 from "@/assets/portfolio/stickers-1.jpg";
+import stickers2 from "@/assets/portfolio/stickers-2.jpg";
+import apparel1 from "@/assets/portfolio/apparel-1.jpg";
+import apparel2 from "@/assets/portfolio/apparel-2.jpg";
+import brochure1 from "@/assets/portfolio/brochure-1.jpg";
+import brochure2 from "@/assets/portfolio/brochure-2.jpg";
 
 type PortfolioItem = {
   id: string;
@@ -16,6 +28,21 @@ type PortfolioItem = {
 };
 
 const categories = ["All", "Business Cards", "Banners", "Stickers", "Apparel", "Brochures"];
+
+const fallbackPortfolioItems: PortfolioItem[] = [
+  { id: "business-cards-1", title: "Premium Visiting Cards", category: "Business Cards", media_url: businessCards1, is_video: false },
+  { id: "business-cards-2", title: "Corporate Card Set", category: "Business Cards", media_url: businessCards2, is_video: false },
+  { id: "business-cards-3", title: "Matte Finish Cards", category: "Business Cards", media_url: businessCards3, is_video: false },
+  { id: "banner-1", title: "Storefront Banner", category: "Banners", media_url: banner1, is_video: false },
+  { id: "banner-2", title: "Event Backdrop", category: "Banners", media_url: banner2, is_video: false },
+  { id: "banner-3", title: "Outdoor Flex Print", category: "Banners", media_url: banner3, is_video: false },
+  { id: "stickers-1", title: "Vinyl Sticker Sheet", category: "Stickers", media_url: stickers1, is_video: false },
+  { id: "stickers-2", title: "Product Label Stickers", category: "Stickers", media_url: stickers2, is_video: false },
+  { id: "apparel-1", title: "Branded T-Shirt", category: "Apparel", media_url: apparel1, is_video: false },
+  { id: "apparel-2", title: "Corporate Apparel", category: "Apparel", media_url: apparel2, is_video: false },
+  { id: "brochure-1", title: "Tri-Fold Brochure", category: "Brochures", media_url: brochure1, is_video: false },
+  { id: "brochure-2", title: "Marketing Brochure", category: "Brochures", media_url: brochure2, is_video: false },
+];
 
 const Lightbox = ({
   item,
@@ -120,13 +147,27 @@ const Portfolio = () => {
 
   useEffect(() => {
     const fetchPortfolio = async () => {
-      const { data } = await supabase.from("portfolio").select("*").order("created_at", { ascending: false });
-      if (data) {
-        setPortfolioItems(data);
-        const allUrls = data.map((item) => item.media_url);
-        prefetchImages(allUrls);
+      if (!supabase) {
+        setPortfolioItems(fallbackPortfolioItems);
+        prefetchImages(fallbackPortfolioItems.map((item) => item.media_url));
+        setLoading(false);
+        return;
       }
-      setLoading(false);
+
+      try {
+        const { data, error } = await supabase.from("portfolio").select("*").order("created_at", { ascending: false });
+        if (error) throw error;
+
+        const nextItems = data && data.length > 0 ? data : fallbackPortfolioItems;
+        setPortfolioItems(nextItems);
+        const allUrls = nextItems.map((item) => item.media_url);
+        prefetchImages(allUrls);
+      } catch {
+        setPortfolioItems(fallbackPortfolioItems);
+        prefetchImages(fallbackPortfolioItems.map((item) => item.media_url));
+      } finally {
+        setLoading(false);
+      }
     };
     fetchPortfolio();
   }, []);

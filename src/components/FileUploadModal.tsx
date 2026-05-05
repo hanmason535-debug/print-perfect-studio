@@ -120,6 +120,15 @@ const FileUploadModal = ({ open, onOpenChange }: FileUploadModalProps) => {
   );
 
   const onSubmit = async (data: FormData) => {
+    if (!supabase) {
+      toast({
+        title: "Upload unavailable",
+        description: "File upload needs Supabase credentials to be configured.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (files.length === 0) {
       toast({ title: "Please add at least one file", variant: "destructive" });
       return;
