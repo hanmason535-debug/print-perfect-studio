@@ -18,6 +18,8 @@ const Index = () => (
     <SEO
       title="Paras Graphics — Premium Printing Services in Ahmedabad"
       description="Your trusted printing partner since 1997. Business cards, brochures, banners, packaging & more. 50,000+ happy clients in Ahmedabad. Get a free quote today!"
+      canonical="https://parasgraphics.com/"
+      ogImage="https://parasgraphics.com/og-image.jpg"
       prefetchImage={heroBg}
     />
     <Header />

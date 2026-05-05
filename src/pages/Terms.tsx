@@ -7,6 +7,7 @@ const Terms = () => (
     <SEO
       title="Terms of Service — Paras Graphics"
       description="Terms of service for Paras Graphics printing services in Ahmedabad."
+      canonical="https://parasgraphics.com/terms"
       robots="noindex, follow"
     />
     <div className="container mx-auto px-4 py-16 max-w-3xl">

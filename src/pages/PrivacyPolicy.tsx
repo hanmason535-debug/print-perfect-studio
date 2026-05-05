@@ -7,6 +7,7 @@ const PrivacyPolicy = () => (
     <SEO
       title="Privacy Policy — Paras Graphics"
       description="Privacy policy for Paras Graphics, Ahmedabad. Learn how we handle your data."
+      canonical="https://parasgraphics.com/privacy-policy"
       robots="noindex, follow"
     />
     <div className="container mx-auto px-4 py-16 max-w-3xl">
