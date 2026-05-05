@@ -22,6 +22,7 @@ export default function ServicesManager() {
   const { toast } = useToast();
 
   const fetchServices = useCallback(async () => {
+    if (!supabase) { setLoading(false); return; }
     setLoading(true);
     const { data: dbData, error: dbError } = await supabase
       .from("services")
@@ -45,6 +46,7 @@ export default function ServicesManager() {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!supabase) return;
     if (!file) {
       toast({ title: "Please select an image", variant: "destructive" });
       return;
@@ -99,6 +101,7 @@ export default function ServicesManager() {
   };
 
   const handleDelete = async (id: string, url: string) => {
+    if (!supabase) return;
     if (!confirm("Are you sure you want to delete this service?")) return;
     
     try {

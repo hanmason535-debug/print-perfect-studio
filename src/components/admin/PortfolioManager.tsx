@@ -23,6 +23,7 @@ export default function PortfolioManager() {
   const { toast } = useToast();
 
   const fetchPortfolio = useCallback(async () => {
+    if (!supabase) { setLoading(false); return; }
     setLoading(true);
     const { data } = await supabase.auth.getSession();
     if (!data.session) {
@@ -52,6 +53,7 @@ export default function PortfolioManager() {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!supabase) return;
     if (!file) {
       toast({ title: "Please select a file", variant: "destructive" });
       return;
@@ -108,6 +110,7 @@ export default function PortfolioManager() {
   };
 
   const handleDelete = async (id: string, url: string) => {
+    if (!supabase) return;
     if (!confirm("Are you sure you want to delete this item?")) return;
     
     try {
